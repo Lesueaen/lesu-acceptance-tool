@@ -58,6 +58,10 @@ Agent generates checklist (JSON) → Human checks pass/fail → Auto generate st
 
 ### 📦 Quick Start
 
+#### 🌐 Online Demo
+
+Try it directly in your browser: **[https://lesueaen.github.io/lesu-acceptance-tool/](https://lesueaen.github.io/lesu-acceptance-tool/)**
+
 #### Download
 Download `lesu-acceptance-tool.html` to your local machine.
 
@@ -301,6 +305,10 @@ Agent 生成验收清单（JSON）→ 人类勾选通过/不通过 → 自动生
 - **双语支持**：中文 / 英文，一键切换
 
 ### 📦 快速开始
+
+#### 🌐 在线体验
+
+直接在浏览器中体验：**[https://lesueaen.github.io/lesu-acceptance-tool/](https://lesueaen.github.io/lesu-acceptance-tool/)**
 
 #### 下载
 直接下载 `lesu-acceptance-tool.html` 到本地。
