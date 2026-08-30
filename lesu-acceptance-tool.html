@@ -1709,16 +1709,17 @@
 <body>
 
     <header class="app-header">
-        <h1>🧪 LESU验收小工具 <span class="sub">· v4.7 历史版本+多次合并+查重归纳</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.8 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
+            <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
             <span class="theme-toggle" onclick="showDICSettings()" title="DIC自动存入设置">📤</span>
             <div class="tester-input">
-                <span>验收人：</span>
-                <input type="text" id="testerName" placeholder="输入姓名" onchange="saveTesterName()" />
+                <span data-i18n="header.tester">验收人：</span>
+                <input type="text" id="testerName" data-i18n-placeholder="header.tester.placeholder" placeholder="输入姓名" onchange="saveTesterName()" />
             </div>
-            <span class="save-indicator" id="saveIndicator">💾 已自动保存</span>
-            <span class="badge">JSON 驱动 · 双格式报告</span>
+            <span class="save-indicator" id="saveIndicator" data-i18n="header.saved">💾 已自动保存</span>
+            <span class="badge" data-i18n="header.badge">JSON 驱动 · 双格式报告</span>
         </div>
     </header>
 
@@ -1759,14 +1760,14 @@
 
             <div class="json-import-area">
                 <div class="section-title">
-                    📥 导入验收项
+                    <span data-i18n="left.title">📥 导入验收项</span>
                     <span class="count" id="itemCountDisplay">0 项</span>
                 </div>
-                <textarea id="jsonInput" spellcheck="false" placeholder="粘贴 JSON 数组，或点击下方「加载示例」"></textarea>
+                <textarea id="jsonInput" spellcheck="false" data-i18n-placeholder="left.inputPlaceholder" placeholder="粘贴 JSON 数组，或点击下方「加载示例」"></textarea>
                 <div class="json-actions">
-                    <button class="btn-primary" onclick="loadJSON()">▶ 导入</button>
-                    <button class="btn-secondary" onclick="loadSample()">📄 加载示例</button>
-                    <button class="btn-secondary" onclick="clearAll()">🗑️ 清空</button>
+                    <button class="btn-primary" onclick="loadJSON()" data-i18n="btn.import">▶ 导入</button>
+                    <button class="btn-secondary" onclick="loadSample()" data-i18n="btn.loadSample">📄 加载示例</button>
+                    <button class="btn-secondary" onclick="clearAll()" data-i18n="btn.clear">🗑️ 清空</button>
                     <button class="btn-warning" onclick="clearSavedData()">♻️ 清除保存</button>
                 </div>
             </div>
@@ -1781,13 +1782,13 @@
 
             <div class="result-area">
                 <div class="section-title">
-                    📄 验收报告
+                    <span data-i18n="report.title">📄 验收报告</span>
                     <span class="count" id="reportCountDisplay">待生成</span>
-                    <button class="btn-sample" style="margin-left:auto;" onclick="toggleReproduceMode()" id="reproduceBtn">🔄 复现/合并</button>
-                    <button class="btn-sample" onclick="showHistoryPanel()" id="historyBtn">📚 历史版本</button>
+                    <button class="btn-sample" style="margin-left:auto;" onclick="toggleReproduceMode()" id="reproduceBtn" data-i18n="btn.reproduce">🔄 复现/合并</button>
+                    <button class="btn-sample" onclick="showHistoryPanel()" id="historyBtn" data-i18n="btn.history">📚 历史版本</button>
                 </div>
                 <div class="result-box" id="resultBox">
-                    <div class="empty-hint">导入验收项后，点击「生成报告」</div>
+                    <div class="empty-hint" data-i18n="report.empty">导入验收项后，点击「生成报告」</div>
                 </div>
                 <!-- 复现/合并面板 -->
                 <div class="reproduce-box" id="reproduceBox" style="display:none;">
@@ -1842,16 +1843,16 @@
                 </div>
                 <!-- 正常模式按钮栏 -->
                 <div class="result-actions" id="normalActions">
-                    <button class="btn-success" onclick="generateReport()" id="generateBtn" style="flex:1;justify-content:center;">📊 生成报告</button>
-                    <button class="btn-secondary" onclick="exportReport('text')">📤 导出 MD</button>
-                    <button class="btn-secondary" onclick="exportReport('html')">📤 导出 HTML</button>
-                    <button class="btn-secondary" onclick="copyReport()">📋 复制</button>
-                    <button class="btn-warning" onclick="clearReport()">🗑️ 清空</button>
+                    <button class="btn-success" onclick="generateReport()" id="generateBtn" style="flex:1;justify-content:center;" data-i18n="btn.generate">📊 生成报告</button>
+                    <button class="btn-secondary" onclick="exportReport('text')" data-i18n="btn.export.md">📤 导出 MD</button>
+                    <button class="btn-secondary" onclick="exportReport('html')" data-i18n="btn.export.html">📤 导出 HTML</button>
+                    <button class="btn-secondary" onclick="copyReport()" data-i18n="btn.copy">📋 复制</button>
+                    <button class="btn-warning" onclick="clearReport()" data-i18n="btn.clear">🗑️ 清空</button>
                 </div>
                 <!-- 复现模式按钮栏 -->
                 <div class="result-actions" id="reproduceActions" style="display:none;">
-                    <button class="btn-success" onclick="executeMerge()" style="flex:1;justify-content:center;">🔀 开始合并复现</button>
-                    <button class="btn-secondary" onclick="toggleReproduceMode()">取消</button>
+                    <button class="btn-success" onclick="executeMerge()" style="flex:1;justify-content:center;" data-i18n="btn.merge">🔀 开始合并复现</button>
+                    <button class="btn-secondary" onclick="toggleReproduceMode()" data-i18n="btn.cancel">取消</button>
                 </div>
             </div>
         </div>
@@ -1861,25 +1862,25 @@
             <div class="panel-header">
                 <h2>
                     <button class="panel-toggle-btn" id="panelToggleBtn" title="切换左侧面板">◀</button>
-                    ✅ 验收清单
-                    <span class="total-badge" id="totalBadge">共 0 项</span>
+                    <span data-i18n="right.title">✅ 验收清单</span>
+                    <span class="total-badge" id="totalBadge" data-i18n="right.total" data-i18n-params='{"n":0}'>共 0 项</span>
                 </h2>
-                <span class="progress-text" id="progressText">0 / 0 已完成</span>
+                <span class="progress-text" id="progressText" data-i18n="right.progress" data-i18n-params='{"n":0,"total":0}'>0 / 0 已完成</span>
             </div>
             <div class="topic-bar">
-                <span class="topic-label">📌 验收主题：</span>
-                <input type="text" class="topic-input" id="topicInput" placeholder="如：DIC V3.5 文档中心功能验收" oninput="updateTopic(this.value)" />
+                <span class="topic-label" data-i18n="right.topic">📌 验收主题：</span>
+                <input type="text" class="topic-input" id="topicInput" data-i18n-placeholder="right.topicPlaceholder" placeholder="如：DIC V3.5 文档中心功能验收" oninput="updateTopic(this.value)" />
             </div>
             <div class="progress-bar-wrap">
                 <div class="progress-bar" id="progressBar"></div>
             </div>
 
             <div class="filter-bar">
-                <button class="filter-btn active" data-filter="all" onclick="setFilter('all')">全部</button>
-                <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')">⏳ 待验收</button>
-                <button class="filter-btn" data-filter="pass" onclick="setFilter('pass')">✅ 通过</button>
-                <button class="filter-btn" data-filter="fail" onclick="setFilter('fail')">❌ 不通过</button>
-                <button class="filter-btn" data-filter="confused" onclick="setFilter('confused')">❓ 不明白</button>
+                <button class="filter-btn active" data-filter="all" onclick="setFilter('all')" data-i18n="status.all">全部</button>
+                <button class="filter-btn" data-filter="pending" onclick="setFilter('pending')" data-i18n="status.pending">⏳ 待验收</button>
+                <button class="filter-btn" data-filter="pass" onclick="setFilter('pass')" data-i18n="status.pass">✅ 通过</button>
+                <button class="filter-btn" data-filter="fail" onclick="setFilter('fail')" data-i18n="status.fail">❌ 不通过</button>
+                <button class="filter-btn" data-filter="confused" onclick="setFilter('confused')" data-i18n="status.confused">❓ 不明白</button>
                 <input type="text" class="search-input" id="searchInput" placeholder="🔍 搜索验收项..." oninput="renderChecklist()" />
             </div>
 
@@ -1900,6 +1901,360 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // ================================================================
+        //  I18N (Internationalization) - 多语言支持
+        // ================================================================
+        const I18N = {
+            zh: {
+                // Header
+                'app.title': '🧪 LESU验收小工具',
+                'app.subtitle': '· v4.8 中英双语',
+                'header.tester': '验收人：',
+                'header.tester.placeholder': '输入姓名',
+                'header.saved': '💾 已自动保存',
+                'header.badge': 'JSON 驱动 · 双格式报告',
+                // Buttons
+                'btn.generate': '📊 生成报告',
+                'btn.export.md': '📤 导出 MD',
+                'btn.export.html': '📤 导出 HTML',
+                'btn.copy': '📋 复制',
+                'btn.clear': '🗑️ 清空',
+                'btn.reproduce': '🔄 复现/合并',
+                'btn.history': '📚 历史版本',
+                'btn.merge': '🔀 开始合并复现',
+                'btn.cancel': '取消',
+                'btn.return': '📄 返回报告',
+                'btn.import': '📥 导入',
+                'btn.loadSample': '📋 加载示例',
+                'btn.copyTemplate': '📋 复制格式模板',
+                'btn.save': '保存',
+                'btn.delete': '删除',
+                'btn.load': '加载',
+                'btn.export': '导出',
+                'btn.close': '✕',
+                'btn.confirm': '确认',
+                // Left panel
+                'left.title': '📝 验收项导入',
+                'left.formatTitle': '📋 导入格式说明',
+                'left.formatHint': '点击展开查看格式说明',
+                'left.inputPlaceholder': '粘贴 JSON 格式的验收项列表...\n\n格式：[\n  {\n    "topic": "验收主题",\n    "module": "模块名",\n    "category": "分类",\n    "title": "[模块名] 功能描述",\n    "description": "操作步骤和预期结果",\n    "required": true\n  }\n]',
+                'left.shortcut': '快捷键：Ctrl+Enter 导入',
+                // Right panel
+                'right.title': '✅ 验收清单',
+                'right.total': '共 {n} 项',
+                'right.progress': '{n} / {total} 已完成',
+                'right.topic': '📌 验收主题：',
+                'right.topicPlaceholder': '如：DIC V3.5 文档中心功能验收',
+                // Status
+                'status.all': '全部',
+                'status.pass': '✅ 通过',
+                'status.fail': '❌ 不通过',
+                'status.confused': '❓ 不明白',
+                'status.pending': '⏳ 待验收',
+                'status.pass.short': '通过',
+                'status.fail.short': '不通过',
+                'status.confused.short': '不明白',
+                'status.pending.short': '待验收',
+                // Item
+                'item.required': '必填',
+                'item.optional': '选填',
+                'item.remarkPlaceholder': '备注（可粘贴截图 Ctrl+V）...',
+                'item.prefillHint': '💡 预填说明',
+                'item.subitems': '子项',
+                'item.subitemSummary': '{p}通过 / {f}不通过 / {c}不明白 / {w}待验',
+                'item.overallRemark': '整体备注',
+                // Report
+                'report.empty': '导入验收项后，点击「生成报告」',
+                'report.title': '验收报告',
+                'report.topic': '验收主题',
+                'report.tester': '验收人',
+                'report.round': '验收轮次',
+                'report.modules': '涉及模块',
+                'report.time': '生成时间',
+                'report.overview': '[总览]',
+                'report.status': '状态',
+                'report.count': '数量',
+                'report.percent': '占比',
+                'report.total': '总计',
+                'report.passRate': '整体通过率',
+                'report.requiredStats': '[必填项统计]',
+                'report.requiredTotal': '必填项总数',
+                'report.requiredPass': '必填项通过',
+                'report.requiredFail': '必填项未通过/不明白',
+                'report.requiredWarning': '有 {n} 个必填项未通过/不明白，需要优先处理！',
+                'report.details': '[验收明细]',
+                'report.issues': '[问题/待澄清项汇总]',
+                'report.mergeSummary': '📊 合并归纳总结',
+                'report.fixedItems': '✅ 已修复项（从不通过/不明白变为通过）',
+                'report.stillFail': '❌ 仍未通过项（需优先处理）',
+                'report.stillConfused': '❓ 仍不明白项（需澄清）',
+                'report.historyChanges': '历史变化',
+                // History
+                'history.title': '📚 历史版本管理',
+                'history.empty': '暂无历史版本',
+                'history.hint': '生成报告后会自动保存，最多保留20个版本',
+                'history.round': '轮次',
+                'history.passRate': '通过率',
+                'history.items': '项数',
+                'history.time': '时间',
+                // Reproduce
+                'reproduce.tab.history': '📚 历史版本',
+                'reproduce.tab.upload': '📁 上传文件',
+                'reproduce.tab.paste': '📋 粘贴报告',
+                'reproduce.historyHint': '选择要合并的历史版本（可多选），系统会按验收项标题自动合并，显示每次的状态变化',
+                'reproduce.uploadHint': '拖拽 .md 报告文件到此处，或点击选择文件（支持多选）',
+                'reproduce.uploadText': '点击或拖拽 MD 文件到此处',
+                'reproduce.uploadSubtext': '支持一次选择多个文件',
+                'reproduce.pasteHint': '粘贴多份验收报告，每份之间用 --- 分隔，系统会自动合并',
+                'reproduce.pastePlaceholder': '粘贴第一份报告...\n\n---\n\n粘贴第二份报告...',
+                'reproduce.noSelection': '请至少选择一个历史版本',
+                'reproduce.noFiles': '请至少上传一个文件',
+                'reproduce.noContent': '请粘贴至少一份报告',
+                // DIC
+                'dic.title': '📤 DIC自动存入设置（默认关闭）',
+                'dic.enable': '启用自动存入DIC',
+                'dic.apiUrl': 'DIC API 地址',
+                'dic.apiUrlPlaceholder': 'http://127.0.0.1:3088/api/acceptance/save',
+                'dic.moduleId': '模块ID（可选）',
+                'dic.moduleIdPlaceholder': 'mod_acceptance',
+                'dic.apiKey': 'API Key（可选）',
+                'dic.apiKeyPlaceholder': 'Bearer Token',
+                'dic.enabled': '✅ DIC自动存入已启用',
+                'dic.disabled': 'DIC自动存入已关闭',
+                'dic.saved': '📤 报告已自动存入DIC',
+                'dic.failed': '⚠️ DIC存入失败',
+                // Toast
+                'toast.templateCopied': '📋 格式模板已复制到剪贴板',
+                'toast.reportCopied': '📋 报告已复制到剪贴板',
+                'toast.cleared': '🗑️ 已清空',
+                'toast.generated': '✅ 报告已生成',
+                'toast.imported': '✅ 已导入 {n} 个验收项',
+                'toast.jsonLoaded': '📄 JSON 已加载，点击「导入」生成清单',
+                'toast.pleaseJson': '请粘贴 JSON 格式的验收项列表',
+                'toast.invalidJson': '❌ JSON 格式错误，请检查',
+                'toast.noItems': '⚠️ 没有可导入的验收项',
+                'toast.mergeComplete': '✅ 合并完成，共 {n} 个验收项',
+                'toast.historyLoaded': '✅ 历史版本已加载',
+                'toast.historyDeleted': '🗑️ 历史版本已删除',
+                'toast.historySaved': '💾 已保存到历史版本',
+                'toast.fileUploaded': '📄 已上传：{name}',
+                'toast.fileRemoved': '已移除：{name}',
+                // Theme
+                'theme.dark': '🌙',
+                'theme.light': '☀️',
+                // Misc
+                'misc.untitled': '未命名验收',
+                'misc.unknown': '未填写',
+                'misc.empty': '暂无数据',
+                'misc.loading': '加载中...',
+                'misc.confirmDelete': '确定要删除吗？',
+                'misc.version': 'v4.8',
+                'misc.lang': '🌐 EN'
+            },
+            en: {
+                // Header
+                'app.title': '🧪 LESU Acceptance Tool',
+                'app.subtitle': '· v4.8 Bilingual',
+                'header.tester': 'Tester:',
+                'header.tester.placeholder': 'Enter name',
+                'header.saved': '💾 Auto-saved',
+                'header.badge': 'JSON Driven · Dual Format',
+                // Buttons
+                'btn.generate': '📊 Generate',
+                'btn.export.md': '📤 Export MD',
+                'btn.export.html': '📤 Export HTML',
+                'btn.copy': '📋 Copy',
+                'btn.clear': '🗑️ Clear',
+                'btn.reproduce': '🔄 Reproduce/Merge',
+                'btn.history': '📚 History',
+                'btn.merge': '🔀 Start Merge',
+                'btn.cancel': 'Cancel',
+                'btn.return': '📄 Back to Report',
+                'btn.import': '📥 Import',
+                'btn.loadSample': '📋 Load Sample',
+                'btn.copyTemplate': '📋 Copy Template',
+                'btn.save': 'Save',
+                'btn.delete': 'Delete',
+                'btn.load': 'Load',
+                'btn.export': 'Export',
+                'btn.close': '✕',
+                'btn.confirm': 'Confirm',
+                // Left panel
+                'left.title': '📝 Import Items',
+                'left.formatTitle': '📋 Format Guide',
+                'left.formatHint': 'Click to expand format guide',
+                'left.inputPlaceholder': 'Paste JSON acceptance items...\n\nFormat: [\n  {\n    "topic": "Acceptance topic",\n    "module": "Module name",\n    "category": "Category",\n    "title": "[Module] Feature description",\n    "description": "Steps and expected results",\n    "required": true\n  }\n]',
+                'left.shortcut': 'Shortcut: Ctrl+Enter to import',
+                // Right panel
+                'right.title': '✅ Acceptance Checklist',
+                'right.total': '{n} items',
+                'right.progress': '{n} / {total} done',
+                'right.topic': '📌 Topic:',
+                'right.topicPlaceholder': 'e.g., DIC V3.5 Doc Center Feature',
+                // Status
+                'status.all': 'All',
+                'status.pass': '✅ Pass',
+                'status.fail': '❌ Fail',
+                'status.confused': '❓ Confused',
+                'status.pending': '⏳ Pending',
+                'status.pass.short': 'Pass',
+                'status.fail.short': 'Fail',
+                'status.confused.short': 'Confused',
+                'status.pending.short': 'Pending',
+                // Item
+                'item.required': 'Required',
+                'item.optional': 'Optional',
+                'item.remarkPlaceholder': 'Remark (paste screenshot Ctrl+V)...',
+                'item.prefillHint': '💡 Prefill Note',
+                'item.subitems': 'Sub-items',
+                'item.subitemSummary': '{p} pass / {f} fail / {c} confused / {w} pending',
+                'item.overallRemark': 'Overall Remark',
+                // Report
+                'report.empty': 'Import items, then click 「Generate」',
+                'report.title': 'Acceptance Report',
+                'report.topic': 'Topic',
+                'report.tester': 'Tester',
+                'report.round': 'Round',
+                'report.modules': 'Modules',
+                'report.time': 'Generated',
+                'report.overview': '[Overview]',
+                'report.status': 'Status',
+                'report.count': 'Count',
+                'report.percent': 'Percent',
+                'report.total': 'Total',
+                'report.passRate': 'Overall Pass Rate',
+                'report.requiredStats': '[Required Stats]',
+                'report.requiredTotal': 'Total required',
+                'report.requiredPass': 'Required passed',
+                'report.requiredFail': 'Required failed/confused',
+                'report.requiredWarning': '{n} required items failed/confused, need priority!',
+                'report.details': '[Details]',
+                'report.issues': '[Issues Summary]',
+                'report.mergeSummary': '📊 Merge Summary',
+                'report.fixedItems': '✅ Fixed (changed from fail/confused to pass)',
+                'report.stillFail': '❌ Still failing (need priority)',
+                'report.stillConfused': '❓ Still confused (need clarification)',
+                'report.historyChanges': 'History Changes',
+                // History
+                'history.title': '📚 Version History',
+                'history.empty': 'No history yet',
+                'history.hint': 'Reports are auto-saved after generation, max 20 versions',
+                'history.round': 'Round',
+                'history.passRate': 'Pass Rate',
+                'history.items': 'Items',
+                'history.time': 'Time',
+                // Reproduce
+                'reproduce.tab.history': '📚 History',
+                'reproduce.tab.upload': '📁 Upload',
+                'reproduce.tab.paste': '📋 Paste',
+                'reproduce.historyHint': 'Select history versions to merge (multi-select). System auto-merges by title and shows status changes.',
+                'reproduce.uploadHint': 'Drag .md report files here, or click to select (multi-select supported)',
+                'reproduce.uploadText': 'Click or drag MD files here',
+                'reproduce.uploadSubtext': 'Multiple files supported',
+                'reproduce.pasteHint': 'Paste multiple reports, separated by --- . System auto-merges.',
+                'reproduce.pastePlaceholder': 'Paste first report...\n\n---\n\nPaste second report...',
+                'reproduce.noSelection': 'Please select at least one history version',
+                'reproduce.noFiles': 'Please upload at least one file',
+                'reproduce.noContent': 'Please paste at least one report',
+                // DIC
+                'dic.title': '📤 DIC Auto-Save Settings (Disabled by Default)',
+                'dic.enable': 'Enable auto-save to DIC',
+                'dic.apiUrl': 'DIC API URL',
+                'dic.apiUrlPlaceholder': 'http://127.0.0.1:3088/api/acceptance/save',
+                'dic.moduleId': 'Module ID (Optional)',
+                'dic.moduleIdPlaceholder': 'mod_acceptance',
+                'dic.apiKey': 'API Key (Optional)',
+                'dic.apiKeyPlaceholder': 'Bearer Token',
+                'dic.enabled': '✅ DIC auto-save enabled',
+                'dic.disabled': 'DIC auto-save disabled',
+                'dic.saved': '📤 Report auto-saved to DIC',
+                'dic.failed': '⚠️ DIC save failed',
+                // Toast
+                'toast.templateCopied': '📋 Template copied to clipboard',
+                'toast.reportCopied': '📋 Report copied to clipboard',
+                'toast.cleared': '🗑️ Cleared',
+                'toast.generated': '✅ Report generated',
+                'toast.imported': '✅ Imported {n} items',
+                'toast.jsonLoaded': '📄 JSON loaded, click 「Import」',
+                'toast.pleaseJson': 'Please paste JSON acceptance items',
+                'toast.invalidJson': '❌ Invalid JSON format',
+                'toast.noItems': '⚠️ No items to import',
+                'toast.mergeComplete': '✅ Merge complete, {n} items',
+                'toast.historyLoaded': '✅ History version loaded',
+                'toast.historyDeleted': '🗑️ History version deleted',
+                'toast.historySaved': '💾 Saved to history',
+                'toast.fileUploaded': '📄 Uploaded: {name}',
+                'toast.fileRemoved': 'Removed: {name}',
+                // Theme
+                'theme.dark': '🌙',
+                'theme.light': '☀️',
+                // Misc
+                'misc.untitled': 'Untitled Acceptance',
+                'misc.unknown': 'Not filled',
+                'misc.empty': 'No data',
+                'misc.loading': 'Loading...',
+                'misc.confirmDelete': 'Are you sure to delete?',
+                'misc.version': 'v4.8',
+                'misc.lang': '🌐 中'
+            }
+        };
+
+        let currentLang = localStorage.getItem('lesu_acceptance_lang') || 'zh';
+
+        function t(key, params) {
+            const dict = I18N[currentLang] || I18N.zh;
+            let text = dict[key] || I18N.zh[key] || key;
+            if (params) {
+                Object.keys(params).forEach(k => {
+                    text = text.replace('{' + k + '}', params[k]);
+                });
+            }
+            return text;
+        }
+
+        function setLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('lesu_acceptance_lang', lang);
+            applyTranslations();
+        }
+
+        function toggleLang() {
+            setLang(currentLang === 'zh' ? 'en' : 'zh');
+        }
+
+        function applyTranslations() {
+            // Update all elements with data-i18n attribute
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                const params = el.getAttribute('data-i18n-params');
+                if (params) {
+                    try {
+                        el.textContent = t(key, JSON.parse(params));
+                    } catch (e) {
+                        el.textContent = t(key);
+                    }
+                } else {
+                    el.textContent = t(key);
+                }
+            });
+            // Update placeholders
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.getAttribute('data-i18n-placeholder');
+                el.placeholder = t(key);
+            });
+            // Update lang button
+            const langBtn = document.getElementById('langToggle');
+            if (langBtn) {
+                langBtn.textContent = t('misc.lang');
+                langBtn.title = currentLang === 'zh' ? 'Switch to English' : '切换到中文';
+            }
+            // Update version subtitle
+            const subEl = document.querySelector('.sub');
+            if (subEl) {
+                subEl.textContent = t('app.subtitle');
+            }
+        }
+
         // ================================================================
         //  DATA & STATE
         // ================================================================
@@ -3593,6 +3948,7 @@
         // ================================================================
         window.addEventListener('DOMContentLoaded', () => {
             initTheme();
+            applyTranslations();
             // 折叠按钮
             document.getElementById('panelToggleBtn').addEventListener('click', togglePanel);
             const restored = loadSavedData();

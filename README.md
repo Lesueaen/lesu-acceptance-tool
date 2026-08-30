@@ -1,14 +1,145 @@
-# LESU 验收小工具 V4.7
+# LESU Acceptance Tool / LESU 验收小工具
 
+> Lightweight acceptance tool designed for AI Agent development workflow. Agent generates checklist, human confirms, auto outputs structured report.
+>
 > 专为 AI Agent 开发流程设计的轻量级验收工具 —— Agent 生成验收清单，人类勾选确认，自动输出结构化报告。
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.7-green.svg)]()
+[![Version](https://img.shields.io/badge/version-4.8-green.svg)]()
 [![Platform](https://img.shields.io/badge/platform-cross--platform-orange.svg)]()
+[![Language](https://img.shields.io/badge/language-EN%2F%E4%B8%AD-brightgreen.svg)]()
 
 ---
 
-## ✨ 为什么需要这个工具？
+## 📖 Language / 语言
+
+- [English](#english)
+- [中文](#中文)
+
+---
+
+## English
+
+### ✨ Why this tool?
+
+In the era of AI Agent-assisted development, we face a pain point:
+
+> **After Agent writes code, how can humans efficiently and structurally accept it?**
+
+Traditional ways:
+- Verbal "test it" → casual, no records, untraceable
+- Word/Excel acceptance sheets → too heavy, inconsistent format, hard for Agent to parse
+- Direct code review → humans get tired, easy to miss
+
+**LESU Acceptance Tool** solves this:
+
+```
+Agent generates checklist (JSON) → Human checks pass/fail → Auto generate structured report (Markdown/HTML)
+```
+
+### 🚀 Core Advantages
+
+#### 1. Zero installation, double-click to use
+- **Single HTML file**, no Node.js, no Python, no database
+- Double-click to open in browser, works on Windows / macOS / Linux
+- All data stored in browser localStorage, nothing uploaded
+
+#### 2. Designed for Agent collaboration
+- Agent outputs checklist in unified JSON format, humans import directly
+- Report outputs standard Markdown, Agent can read and fix issues directly
+- Supports multi-round acceptance merge, history version tracking, duplicate detection
+
+#### 3. Human friendly
+- Button-style checking (✅Pass / ❌Fail / ❓Confused), no typing needed
+- Supports Ctrl+V to paste screenshots directly
+- Auto-expand remark area when failing
+- Dark/Light theme toggle
+- **Bilingual support**: English / Chinese, switch with one click
+
+### 📦 Quick Start
+
+#### Download
+Download `lesu-acceptance-tool.html` to your local machine.
+
+#### Open
+Double-click the file, open in browser.
+
+#### Three steps to complete acceptance
+
+**Step 1: Agent generates checklist**
+
+Ask Agent to output JSON in this format:
+
+```json
+[
+  {
+    "topic": "User Login Feature Acceptance",
+    "round": "Round 1",
+    "module": "User Module",
+    "category": "Basic Feature",
+    "step": "Step 1",
+    "title": "[User Module] Normal Login",
+    "description": "Steps:\n1. Enter correct username and password\n2. Click login\n\nExpected:\n- Login successful\n- Redirect to homepage",
+    "required": true,
+    "remark": "Prefill note (optional)"
+  }
+]
+```
+
+**Step 2: Human checks acceptance**
+
+- Paste JSON into import box, click「Import」
+- Operate item by item, click ✅ / ❌ / ❓ buttons
+- Auto-expand remark when failing, can paste screenshots
+
+**Step 3: Generate report**
+
+- Click「Generate Report」
+- Auto output structured Markdown report
+- Copy to Agent for fixing, or export HTML to share with team
+
+### 🔧 Features
+
+| Feature | Description |
+|---------|-------------|
+| Status | ✅ Pass / ❌ Fail / ❌ Confused / ⏳ Pending |
+| Sub-items | Auto-parse expected results as sub-items, check individually |
+| History | Auto-save after generation, max 20 versions |
+| Merge | Three ways: from history / upload files / paste reports |
+| Summary | Auto-identify fixed items, still failing, still confused |
+| Prefill | `remark` field shows as hint, not filled into input |
+| DIC API | Optional auto-save to internal system (disabled by default) |
+| Theme | Dark/Light toggle |
+| Language | English/Chinese bilingual switch |
+
+### 📋 Data Format
+
+See [Format Guide](#) for detailed JSON and Markdown format specification.
+
+### 💡 Use Cases
+
+1. **Agent development acceptance**: Agent finishes feature → generates checklist → human accepts → report to Agent → fix → multi-round merge
+2. **Team collaboration**: Lead generates checklist → multiple people accept different modules → merge reports → HTML for meeting
+3. **Regression testing**: Import historical checklist before release → quick regression → compare with history
+
+### 🤝 Contributing
+
+Welcome to submit Issues and Pull Requests!
+
+**Adding new languages**: This tool supports multi-language architecture. To add a new language:
+1. Add a new language dictionary in the `I18N` object
+2. Add language toggle option
+3. Submit PR
+
+### 📄 License
+
+MIT License
+
+---
+
+## 中文
+
+### ✨ 为什么需要这个工具？
 
 在 AI Agent 辅助开发的时代，我们面临一个痛点：
 
@@ -25,37 +156,34 @@
 Agent 生成验收清单（JSON）→ 人类勾选通过/不通过 → 自动生成结构化报告（Markdown/HTML）
 ```
 
----
+### 🚀 核心优势
 
-## 🚀 核心优势
-
-### 1. 零安装，双击即用
+#### 1. 零安装，双击即用
 - **单个 HTML 文件**，无需 Node.js、无需 Python、无需数据库
 - 双击打开浏览器即可使用，Windows / macOS / Linux 全平台兼容
 - 所有数据存在浏览器 localStorage，不上传任何服务器
 
-### 2. 专为 Agent 协作设计
+#### 2. 专为 Agent 协作设计
 - Agent 按统一 JSON 格式输出验收清单，人类直接导入
 - 验收报告输出标准 Markdown，Agent 可直接阅读并修复问题
 - 支持多次验收合并、历史版本追溯、查重归纳
 
-### 3. 人类友好
+#### 3. 人类友好
 - 按钮式勾选（✅通过 / ❌不通过 / ❓不明白），无需打字
 - 支持 Ctrl+V 直接粘贴截图
 - 不通过自动展开备注栏，记录问题
 - 暗色/亮色主题切换
+- **双语支持**：中文 / 英文，一键切换
 
----
+### 📦 快速开始
 
-## 📦 快速开始
+#### 下载
+直接下载 `lesu-acceptance-tool.html` 到本地。
 
-### 下载
-直接下载 `LESU验收小工具_v4.7.html` 到本地。
-
-### 打开
+#### 打开
 双击文件，用浏览器打开即可。
 
-### 三步完成验收
+#### 三步完成验收
 
 **第一步：Agent 生成验收清单**
 
@@ -89,201 +217,56 @@ Agent 生成验收清单（JSON）→ 人类勾选通过/不通过 → 自动生
 - 自动输出结构化 Markdown 报告
 - 可复制给 Agent 修复，或导出 HTML 分享给团队
 
----
+### 🔧 功能详解
 
-## 🔧 功能详解
-
-### 验收状态
-
-| 状态 | 说明 |
+| 功能 | 说明 |
 |------|------|
-| ✅ 通过 | 功能正常，符合预期 |
-| ❌ 不通过 | 功能异常，需要修复 |
-| ❓ 不明白 | 需求不清或无法判断，需要澄清 |
-| ⏳ 待验收 | 尚未检查 |
+| 验收状态 | ✅ 通过 / ❌ 不通过 / ❓ 不明白 / ⏳ 待验收 |
+| 子项验收 | 自动解析预期结果为子项，可单独勾选 |
+| 历史版本 | 生成报告自动保存，最多20个版本 |
+| 多次合并 | 三种方式：历史版本/上传文件/粘贴报告 |
+| 查重归纳 | 自动识别已修复项、仍未通过、仍不明白 |
+| 预填说明 | remark 字段显示为提示，不填入输入框 |
+| DIC 接口 | 可选自动存入内部系统（默认关闭） |
+| 主题 | 暗色/亮色切换 |
+| 语言 | 中文/英文双语切换 |
 
-### 子项验收
+### 📋 数据格式
 
-每个验收项的「预期结果」会自动拆分为子项，可单独勾选：
+详细的 JSON 和 Markdown 格式规范请参考程序内「导入格式说明」。
 
-```
-- [用户模块] 正常登录
-  ├── ✅ 登录成功
-  ├── ❌ 跳转到首页（实际跳转到了错误页面）
-  └── ❓ 记住密码功能（不确定是否需要）
-```
+### 💡 使用场景
 
-### 历史版本
+1. **Agent 开发功能后验收**：Agent 完成功能 → 生成验收清单 → 人类验收 → 报告给 Agent → 修复 → 多轮合并
+2. **团队协作验收**：负责人生成清单 → 多人分别验收不同模块 → 合并多份报告 → HTML 用于会议
+3. **回归测试**：每次版本发布前，导入历史验收清单 → 快速回归核心功能 → 对比历史版本
 
-- 每次生成报告自动保存为历史版本（最多20个）
-- 可随时加载、导出、删除任意版本
-- 再也不怕"之前的验收结果找不到了"
-
-### 多次验收合并
-
-支持三种方式合并多轮验收结果：
-
-1. **从历史版本合并**：选择多轮历史报告，一键合并
-2. **上传 MD 文件合并**：拖拽多份报告文件
-3. **粘贴多份报告合并**：用 `---` 分隔多份报告
-
-合并后自动生成**归纳总结**：
-
-```
-📊 合并归纳总结
-- ✅ 已修复：5项（从不通过变为通过）
-- ❌ 仍未通过：2项（需优先处理）
-- ❓ 仍不明白：1项（需澄清）
-
-✅ 已修复项
-- [用户模块] 正常登录：不通过 → 通过
-
-❌ 仍未通过项（需优先处理）
-- [用户模块] 密码重置：邮件收不到
-```
-
-### 预填说明
-
-导入的 `remark` 字段会显示为黄色提示条（💡 预填说明），不会直接填入备注输入框。
-
-适用于 Agent 给人类的验收提示，如"注意测试边界情况"、"需要使用测试账号 xxx"。
-
-### DIC 自动存入（可选）
-
-支持配置 API 地址，生成报告时自动存入内部系统（默认关闭）。
-
----
-
-## 📋 数据格式规范
-
-### 导入格式（JSON）
-
-| 字段 | 类型 | 必填 | 说明 |
-|------|------|------|------|
-| `topic` | string | 否 | 整体验收主题（写在第一个对象即可） |
-| `round` | string | 否 | 验收轮次，如"第1轮"、"第2轮回归" |
-| `module` | string | 是 | 所属模块，如"用户模块" |
-| `category` | string | 是 | 功能分类，用于分组 |
-| `step` | string | 否 | 步骤编号，如"第一步" |
-| `title` | string | 是 | 验收标题，格式：`[模块名] 功能描述` |
-| `description` | string | 是 | 操作步骤和预期结果 |
-| `required` | boolean | 否 | 是否必填项，默认 false |
-| `remark` | string | 否 | 预填说明（显示为提示，不填入输入框） |
-
-### 报告格式（Markdown）
-
-```markdown
-# 用户登录功能验收
-
-**验收主题**：用户登录功能验收
-**验收人**：张三
-**验收轮次**：第1轮
-**涉及模块**：用户模块
-**生成时间**：2026/8/31 15:30:00
-
-## [总览]
-| 状态 | 数量 | 占比 |
-|------|------|------|
-| [PASS] 通过 | 8 | 80% |
-| [FAIL] 不通过 | 2 | 20% |
-
-## [验收明细]
-### [基础功能]
-- [PASS] **[第1轮] [第一步] [用户模块] 正常登录** [必填] — 通过
-  - [子项] 2通过 / 0不通过 / 0不明白 / 0待验
-    - [PASS] 登录成功
-    - [PASS] 跳转到首页
-- [FAIL] **[第1轮] [第二步] [用户模块] 密码重置** [必填] — 不通过
-  - [整体备注] 重置邮件收不到
-```
-
----
-
-## 💡 使用场景
-
-### 场景1：Agent 开发功能后验收
-
-1. Agent 完成功能开发
-2. 要求 Agent："按 LESU 验收工具格式，生成这个功能的验收清单"
-3. 人类导入清单，逐项验收
-4. 生成报告，复制给 Agent："按这个报告修复问题"
-5. Agent 修复后，生成第二轮验收清单
-6. 合并两轮报告，查看哪些已修复、哪些仍有问题
-
-### 场景2：团队协作验收
-
-1. 负责人生成验收清单
-2. 多人分别验收不同模块
-3. 合并多份报告，生成整体验收结果
-4. 导出 HTML 报告，在团队会议上展示
-
-### 场景3：回归测试
-
-1. 每次版本发布前，导入历史验收清单
-2. 快速回归核心功能
-3. 对比历史版本，确认没有退化
-
----
-
-## 🎯 设计理念
-
-### 为 Agent 设计，为人类减负
-
-- **Agent 负责生成**：结构化的验收清单，覆盖所有功能点
-- **人类负责判断**：只需点击按钮，记录异常
-- **工具负责整理**：自动生成报告、合并多轮、归纳总结
-
-### 零依赖、零配置
-
-- 不依赖任何后端服务
-- 不需要安装任何软件
-- 数据完全本地存储，保护隐私
-
-### 格式统一，机器可读
-
-- 导入导出都是标准 JSON / Markdown
-- Agent 可以直接解析报告，精准定位问题
-- 方便接入 CI/CD 流程
-
----
-
-## 🗺️ 版本历史
-
-| 版本 | 核心功能 |
-|------|---------|
-| V1.0 | 基础验收清单、勾选、报告生成 |
-| V2.0 | 截图粘贴、暗色主题 |
-| V3.0 | 分类管理、本地持久化 |
-| V4.0 | 按钮式状态、全局编号、预填说明 |
-| V4.5 | 子项验收、整体备注 |
-| **V4.7** | **历史版本、多次合并、查重归纳、DIC接口** |
-
----
-
-## 🤝 贡献
+### 🤝 贡献
 
 欢迎提交 Issue 和 Pull Request！
 
-### 开发指南
+**添加新语言**：本工具支持多语言架构，添加新语言：
+1. 在 `I18N` 对象中添加新的语言字典
+2. 添加语言切换选项
+3. 提交 PR
 
-- 单文件 HTML，所有代码在一个文件中
-- 修改后直接用浏览器打开测试
-- 建议使用 V4.7 测试验收清单进行回归测试
-
----
-
-## 📄 许可证
+### 📄 许可证
 
 MIT License
 
 ---
 
-## ⭐ 支持
+## 👨‍💻 About the Author / 关于作者
 
-如果这个工具对你有帮助，欢迎给个 Star！
+**This program is developed by the author using Doubao + DeepSeek.**
 
-有任何问题或建议，欢迎提交 Issue。
+**本程序由作者使用豆包 + DeepSeek 开发。**
+
+- Author / 作者: lesueaen
+- GitHub: https://github.com/lesueaen
 
 ---
+
+**LESU Acceptance Tool** — Make acceptance in the AI era simpler, more efficient, and more traceable.
 
 **LESU 验收小工具** —— 让 AI 时代的验收更简单、更高效、更可追溯。
