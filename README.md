@@ -112,9 +112,134 @@ Ask Agent to output JSON in this format:
 | Theme | Dark/Light toggle |
 | Language | English/Chinese bilingual switch |
 
-### 📋 Data Format
+### 📋 Data Format Specification
 
-See [Format Guide](#) for detailed JSON and Markdown format specification.
+#### JSON Schema (Input)
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["module", "category", "title", "description"],
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "Overall acceptance topic (only needed in first item)"
+      },
+      "round": {
+        "type": "string",
+        "description": "Acceptance round, e.g., 'Round 1', 'Round 2 regression'"
+      },
+      "module": {
+        "type": "string",
+        "description": "Module name, e.g., 'User Module'"
+      },
+      "category": {
+        "type": "string",
+        "description": "Feature category for grouping"
+      },
+      "step": {
+        "type": "string",
+        "description": "Step number, e.g., 'Step 1'"
+      },
+      "title": {
+        "type": "string",
+        "description": "Acceptance item title, MUST include module name: [Module Name] Feature description",
+        "pattern": "^\\[.+\\].+"
+      },
+      "description": {
+        "type": "string",
+        "description": "Operation steps and expected results. Lines starting with '-' will be auto-parsed as sub-items"
+      },
+      "required": {
+        "type": "boolean",
+        "default": false,
+        "description": "Whether this is a required item"
+      },
+      "remark": {
+        "type": "string",
+        "description": "Prefill note (displayed as hint, NOT filled into remark input)"
+      }
+    }
+  }
+}
+```
+
+#### Field Descriptions
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| `topic` | string | No | Overall acceptance topic (only in first item) |
+| `round` | string | No | Acceptance round identifier |
+| `module` | string | **Yes** |所属模块名称 |
+| `category` | string | **Yes** | 功能分类，用于分组 |
+| `step` | string | No | 步骤编号 |
+| `title` | string | **Yes** | 验收标题，格式：`[模块名] 功能描述` |
+| `description` | string | **Yes** | 操作步骤和预期结果，`-` 开头的行自动解析为子项 |
+| `required` | boolean | No | 是否必填项，默认 false |
+| `remark` | string | No | 预填说明（显示为提示，不填入输入框） |
+
+#### Example Input
+
+```json
+[
+  {
+    "topic": "User Login Feature Acceptance",
+    "round": "Round 1",
+    "module": "User Module",
+    "category": "Basic Feature",
+    "step": "Step 1",
+    "title": "[User Module] Normal Login",
+    "description": "Steps:\n1. Enter correct username and password\n2. Click login\n\nExpected:\n- Login successful\n- Redirect to homepage\n- Session token generated",
+    "required": true,
+    "remark": "Test with account: test@example.com"
+  }
+]
+```
+
+#### Markdown Report Format
+
+The generated report follows this structure:
+
+```markdown
+# {Topic}
+
+**Topic**: {topic}
+**Tester**: {tester}
+**Round**: {round}
+**Modules**: {modules}
+**Generated**: {timestamp}
+
+## [Overview]
+| Status | Count | Percent |
+|--------|-------|---------|
+| [PASS] Pass | X | X% |
+| [FAIL] Fail | X | X% |
+| [CONFUSED] Confused | X | X% |
+| [PENDING] Pending | X | X% |
+| **Total** | **X** | **100%** |
+
+**Overall Pass Rate**: X%
+
+## [Details]
+### [Category]
+- [PASS] **[Round] [Step] [Module] Title** [Required] — Pass
+  - [Sub-items] X pass / X fail / X confused / X pending
+    - [PASS] Sub-item 1
+    - [FAIL] Sub-item 2 (remark)
+  - [Overall Remark] xxx
+```
+
+#### Status Codes
+
+| Code | Meaning |
+|------|---------|
+| `PASS` | Item passed acceptance |
+| `FAIL` | Item failed, needs fix |
+| `CONFUSED` | Unclear, needs clarification |
+| `PENDING` | Not yet tested |
 
 ### 💡 Use Cases
 
@@ -231,9 +356,134 @@ Agent 生成验收清单（JSON）→ 人类勾选通过/不通过 → 自动生
 | 主题 | 暗色/亮色切换 |
 | 语言 | 中文/英文双语切换 |
 
-### 📋 数据格式
+### 📋 数据格式规范
 
-详细的 JSON 和 Markdown 格式规范请参考程序内「导入格式说明」。
+#### JSON Schema（输入格式）
+
+```json
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "required": ["module", "category", "title", "description"],
+    "properties": {
+      "topic": {
+        "type": "string",
+        "description": "整体验收主题（只需在第一个对象中填写）"
+      },
+      "round": {
+        "type": "string",
+        "description": "验收轮次，如'第1轮'、'第2轮回归'"
+      },
+      "module": {
+        "type": "string",
+        "description": "所属模块名称，如'用户模块'"
+      },
+      "category": {
+        "type": "string",
+        "description": "功能分类，用于分组显示"
+      },
+      "step": {
+        "type": "string",
+        "description": "步骤编号，如'第一步'"
+      },
+      "title": {
+        "type": "string",
+        "description": "验收标题，必须包含模块名，格式：[模块名] 功能描述",
+        "pattern": "^\\[.+\\].+"
+      },
+      "description": {
+        "type": "string",
+        "description": "操作步骤和预期结果。以'-'开头的行会自动解析为子项，每个子项可独立勾选"
+      },
+      "required": {
+        "type": "boolean",
+        "default": false,
+        "description": "是否为必填项"
+      },
+      "remark": {
+        "type": "string",
+        "description": "预填说明（显示为黄色提示条，不会直接填入备注输入框）"
+      }
+    }
+  }
+}
+```
+
+#### 字段说明
+
+| 字段 | 类型 | 必填 | 说明 |
+|------|------|------|------|
+| `topic` | string | 否 | 整体验收主题（只需在第一个对象中填写） |
+| `round` | string | 否 | 验收轮次标识 |
+| `module` | string | **是** | 所属模块名称 |
+| `category` | string | **是** | 功能分类，用于分组 |
+| `step` | string | 否 | 步骤编号 |
+| `title` | string | **是** | 验收标题，格式：`[模块名] 功能描述` |
+| `description` | string | **是** | 操作步骤和预期结果，`-` 开头的行自动解析为子项 |
+| `required` | boolean | 否 | 是否必填项，默认 false |
+| `remark` | string | 否 | 预填说明（显示为提示，不填入输入框） |
+
+#### 输入示例
+
+```json
+[
+  {
+    "topic": "用户登录功能验收",
+    "round": "第1轮",
+    "module": "用户模块",
+    "category": "基础功能",
+    "step": "第一步",
+    "title": "[用户模块] 正常登录",
+    "description": "操作步骤：\n1. 输入正确用户名密码\n2. 点击登录\n\n预期结果：\n- 登录成功\n- 跳转到首页\n- 生成会话token",
+    "required": true,
+    "remark": "测试账号：test@example.com"
+  }
+]
+```
+
+#### Markdown 报告格式
+
+生成的报告遵循以下结构：
+
+```markdown
+# {验收主题}
+
+**验收主题**：{topic}
+**验收人**：{tester}
+**验收轮次**：{round}
+**涉及模块**：{modules}
+**生成时间**：{timestamp}
+
+## [总览]
+| 状态 | 数量 | 占比 |
+|------|------|------|
+| [PASS] 通过 | X | X% |
+| [FAIL] 不通过 | X | X% |
+| [CONFUSED] 不明白 | X | X% |
+| [PENDING] 待验收 | X | X% |
+| **总计** | **X** | **100%** |
+
+**整体通过率**：X%
+
+## [验收明细]
+### [分类]
+- [PASS] **[轮次] [步骤] [模块] 标题** [必填] — 通过
+  - [子项] X通过 / X不通过 / X不明白 / X待验
+    - [PASS] 子项1
+    - [FAIL] 子项2（备注）
+  - [整体备注] xxx
+```
+
+#### 状态码说明
+
+| 状态码 | 含义 |
+|--------|------|
+| `PASS` | 验收通过 |
+| `FAIL` | 验收不通过，需要修复 |
+| `CONFUSED` | 不明白，需要澄清 |
+| `PENDING` | 尚未验收 |
 
 ### 💡 使用场景
 
