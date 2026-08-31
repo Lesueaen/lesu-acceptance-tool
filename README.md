@@ -5,7 +5,7 @@
 > 专为 AI Agent 开发流程设计的轻量级验收工具 —— Agent 生成验收清单，人类勾选确认，自动输出结构化报告。
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-4.8-green.svg)]()
+[![Version](https://img.shields.io/badge/version-4.94-green.svg)]()
 [![Platform](https://img.shields.io/badge/platform-cross--platform-orange.svg)]()
 [![Language](https://img.shields.io/badge/language-EN%2F%E4%B8%AD-brightgreen.svg)]()
 
@@ -108,6 +108,7 @@ Ask Agent to output JSON in this format:
 |---------|-------------|
 | Status | ✅ Pass / ❌ Fail / ❌ Confused / ⏳ Pending |
 | Sub-items | Auto-parse expected results as sub-items, check individually |
+| Smart Remark | Collapsible remark boxes for both overall and sub-items, click to expand, auto-collapse on blur/Enter/Esc |
 | History | Auto-save after generation, max 20 versions |
 | Merge | Three ways: from history / upload files / paste reports |
 | Summary | Auto-identify fixed items, still failing, still confused |
@@ -356,6 +357,7 @@ Agent 生成验收清单（JSON）→ 人类勾选通过/不通过 → 自动生
 |------|------|
 | 验收状态 | ✅ 通过 / ❌ 不通过 / ❓ 不明白 / ⏳ 待验收 |
 | 子项验收 | 自动解析预期结果为子项，可单独勾选 |
+| 智能折叠备注 | 整体备注和子项备注均支持智能折叠，点击展开，失焦/回车/Esc自动收起 |
 | 历史版本 | 生成报告自动保存，最多20个版本 |
 | 多次合并 | 三种方式：历史版本/上传文件/粘贴报告 |
 | 查重归纳 | 自动识别已修复项、仍未通过、仍不明白 |
