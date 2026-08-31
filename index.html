@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LESU验收小工具 v5.0</title>
+    <title>LESU验收小工具 v5.1</title>
     <style>
         /* ===== 基础样式 ===== */
         * {
@@ -624,11 +624,101 @@
             flex: 1;
             height: 100%;
             min-height: 0;
-            padding: 16px 24px;
+            padding: 16px 24px 16px 60px;
             overflow-y: auto;
             background: #f8fafc;
             display: flex;
             flex-direction: column;
+            position: relative;
+        }
+
+        /* ===== 垂直导航条 ===== */
+        .vertical-nav {
+            position: absolute;
+            left: 12px;
+            top: 16px;
+            bottom: 16px;
+            width: 36px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            z-index: 10;
+        }
+        .nav-btn {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #94a3b8;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .nav-btn:hover {
+            color: #3b82f6;
+            border-color: #3b82f6;
+            background: #f0f7ff;
+        }
+        .nav-numbers {
+            flex: 1;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 3px;
+            padding: 4px 0;
+            width: 100%;
+        }
+        .nav-numbers::-webkit-scrollbar {
+            width: 2px;
+        }
+        .nav-numbers::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 1px;
+        }
+        .nav-num {
+            width: 28px;
+            height: 28px;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+        }
+        .nav-num:hover {
+            color: #3b82f6;
+            border-color: #3b82f6;
+            background: #f0f7ff;
+        }
+        .nav-num.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+        .nav-num.pass {
+            border-color: #22c55e;
+            color: #22c55e;
+        }
+        .nav-num.fail {
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        .nav-num.confused {
+            border-color: #f59e0b;
+            color: #f59e0b;
         }
         .right-panel .panel-header {
             display: flex;
@@ -1848,7 +1938,7 @@
 <body>
 
     <header class="app-header">
-        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v5.0 中英双语</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v5.1 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
             <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
@@ -1998,6 +2088,12 @@
 
         <!-- ===== 右侧面板 ===== -->
         <div class="right-panel" id="rightPanel">
+            <!-- 垂直导航条 -->
+            <div class="vertical-nav" id="verticalNav">
+                <button class="nav-btn" onclick="scrollToTop()" title="回到顶部">⬆</button>
+                <div class="nav-numbers" id="navNumbers"></div>
+                <button class="nav-btn" onclick="scrollToBottom()" title="回到底部">⬇</button>
+            </div>
             <div class="panel-header">
                 <h2>
                     <button class="panel-toggle-btn" id="panelToggleBtn" title="切换左侧面板">◀</button>
@@ -2030,7 +2126,6 @@
                     <p>请在左侧导入 JSON 数据，系统将自动生成验收清单。</p>
                 </div>
             </div>
-            <button class="back-to-functions" id="backToFunctionsBottom" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到头部">⬆</button>
         </div>
     </div>
 
@@ -2048,7 +2143,7 @@
             zh: {
                 // Header
                 'app.title': '🧪 LESU验收小工具',
-                'app.subtitle': '· v5.0 中英双语',
+                'app.subtitle': '· v5.1 中英双语',
                 'header.tester': '验收人：',
                 'header.tester.placeholder': '输入姓名',
                 'header.saved': '💾 已自动保存',
@@ -2188,13 +2283,13 @@
                 'misc.empty': '暂无数据',
                 'misc.loading': '加载中...',
                 'misc.confirmDelete': '确定要删除吗？',
-                'misc.version': 'v5.0',
+                'misc.version': 'v5.1',
                 'misc.lang': '🌐 EN'
             },
             en: {
                 // Header
                 'app.title': '🧪 LESU Acceptance Tool',
-                'app.subtitle': '· v5.0 Bilingual',
+                'app.subtitle': '· v5.1 Bilingual',
                 'header.tester': 'Tester:',
                 'header.tester.placeholder': 'Enter name',
                 'header.saved': '💾 Auto-saved',
@@ -2334,7 +2429,7 @@
                 'misc.empty': 'No data',
                 'misc.loading': 'Loading...',
                 'misc.confirmDelete': 'Are you sure to delete?',
-                'misc.version': 'v5.0',
+                'misc.version': 'v5.1',
                 'misc.lang': '🌐 中'
             }
         };
@@ -2660,6 +2755,68 @@
             document.getElementById('reportCountDisplay').textContent = '待生成';
             autoSave();
             showToast('已清空', 'success');
+        }
+
+        // ================================================================
+        //  VERTICAL NAV - 垂直导航条
+        // ================================================================
+        function scrollToTop() {
+            const rightPanel = document.getElementById('rightPanel');
+            rightPanel.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function scrollToBottom() {
+            const rightPanel = document.getElementById('rightPanel');
+            rightPanel.scrollTo({ top: rightPanel.scrollHeight, behavior: 'smooth' });
+        }
+
+        function renderNavNumbers() {
+            const navNumbers = document.getElementById('navNumbers');
+            if (!navNumbers) return;
+            
+            const filtered = getFilteredItems();
+            if (filtered.length === 0) {
+                navNumbers.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            filtered.forEach((item, idx) => {
+                const statusClass = item.status || '';
+                html += `<button class="nav-num ${statusClass}" onclick="jumpToItem(${idx + 1})" title="第${idx + 1}项: ${escapeHtml(item.title)}">${idx + 1}</button>`;
+            });
+            navNumbers.innerHTML = html;
+
+            // 监听滚动，高亮当前可见项
+            const rightPanel = document.getElementById('rightPanel');
+            rightPanel.onscroll = () => updateActiveNavNumber();
+        }
+
+        function jumpToItem(index) {
+            const item = document.querySelector(`.check-item[data-index="${index}"]`);
+            if (item) {
+                const rightPanel = document.getElementById('rightPanel');
+                const itemTop = item.offsetTop - rightPanel.offsetTop - 20;
+                rightPanel.scrollTo({ top: itemTop, behavior: 'smooth' });
+            }
+        }
+
+        function updateActiveNavNumber() {
+            const rightPanel = document.getElementById('rightPanel');
+            const items = document.querySelectorAll('.check-item');
+            const navNums = document.querySelectorAll('.nav-num');
+            
+            let activeIndex = -1;
+            items.forEach((item, idx) => {
+                const itemTop = item.offsetTop - rightPanel.offsetTop;
+                if (itemTop <= rightPanel.scrollTop + 100) {
+                    activeIndex = idx;
+                }
+            });
+
+            navNums.forEach((num, idx) => {
+                num.classList.toggle('active', idx === activeIndex);
+            });
         }
 
         // ================================================================
@@ -3063,7 +3220,6 @@
                                 ${confusedCount > 0 ? `<span class="confused-count">❓ ${confusedCount}</span>` : ''}
                             </span>
                         </div>
-                        <button class="back-to-functions cat-back-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到头部">⬆</button>
                         <div class="category-body ${isCollapsed ? 'collapsed' : ''}">
                 `;
 
@@ -3122,7 +3278,7 @@
                     }
 
                     html += `
-                        <div class="check-item ${requiredFail ? 'required-fail' : ''}" id="item-${item.id}">
+                        <div class="check-item ${requiredFail ? 'required-fail' : ''}" id="item-${item.id}" data-index="${globalIndex}">
                             <div class="item-row">
                                 <div class="item-index">
                                     <span class="idx-current">${globalIndex}</span>
@@ -3179,6 +3335,8 @@
             }
 
             container.innerHTML = html;
+            // 渲染垂直导航条数字
+            renderNavNumbers();
             // 自适应所有显示的textarea高度
             setTimeout(() => {
                 document.querySelectorAll('.remark-editor.show textarea, .sub-remark-area.show textarea').forEach(ta => {
