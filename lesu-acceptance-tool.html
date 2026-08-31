@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LESU验收小工具 v4.95</title>
+    <title>LESU验收小工具 v4.97</title>
     <style>
         /* ===== 基础样式 ===== */
         * {
@@ -107,6 +107,7 @@
             width: 33.333%;
             min-width: 340px;
             height: 100%;
+            min-height: 0;
             background: #ffffff;
             border-right: 1px solid #e2e8f0;
             padding: 16px 18px;
@@ -622,6 +623,7 @@
         .right-panel {
             flex: 1;
             height: 100%;
+            min-height: 0;
             padding: 16px 24px;
             overflow-y: auto;
             background: #f8fafc;
@@ -1354,25 +1356,30 @@
             background: #94a3b8;
         }
 
-        @media (max-width: 920px) {
+        /* 小窗口布局：右侧验收清单在上，左侧导入/报告在下 */
+        @media (max-width: 600px) {
             .app-container {
-                flex-direction: column;
+                flex-direction: column-reverse;
                 height: auto;
                 overflow-y: auto;
             }
             .left-panel {
                 width: 100%;
                 min-width: unset;
+                height: auto;
                 border-right: none;
-                border-bottom: 1px solid #e2e8f0;
-                max-height: 440px;
+                border-top: 1px solid #e2e8f0;
+                max-height: 50vh;
             }
             .left-panel.collapsed {
                 max-height: 0 !important;
                 padding: 0 !important;
+                border-top: none;
             }
             .right-panel {
                 padding: 16px;
+                height: auto;
+                max-height: 50vh;
             }
             .json-import-area textarea {
                 height: 80px;
@@ -1792,7 +1799,7 @@
 <body>
 
     <header class="app-header">
-        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.95 中英双语</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.97 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
             <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
@@ -1991,7 +1998,7 @@
             zh: {
                 // Header
                 'app.title': '🧪 LESU验收小工具',
-                'app.subtitle': '· v4.95 中英双语',
+                'app.subtitle': '· v4.97 中英双语',
                 'header.tester': '验收人：',
                 'header.tester.placeholder': '输入姓名',
                 'header.saved': '💾 已自动保存',
@@ -2131,13 +2138,13 @@
                 'misc.empty': '暂无数据',
                 'misc.loading': '加载中...',
                 'misc.confirmDelete': '确定要删除吗？',
-                'misc.version': 'v4.95',
+                'misc.version': 'v4.97',
                 'misc.lang': '🌐 EN'
             },
             en: {
                 // Header
                 'app.title': '🧪 LESU Acceptance Tool',
-                'app.subtitle': '· v4.95 Bilingual',
+                'app.subtitle': '· v4.97 Bilingual',
                 'header.tester': 'Tester:',
                 'header.tester.placeholder': 'Enter name',
                 'header.saved': '💾 Auto-saved',
@@ -2277,7 +2284,7 @@
                 'misc.empty': 'No data',
                 'misc.loading': 'Loading...',
                 'misc.confirmDelete': 'Are you sure to delete?',
-                'misc.version': 'v4.95',
+                'misc.version': 'v4.97',
                 'misc.lang': '🌐 中'
             }
         };
