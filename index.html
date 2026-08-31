@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LESU验收小工具 v4.7</title>
+    <title>LESU验收小工具 v4.94</title>
     <style>
         /* ===== 基础样式 ===== */
         * {
@@ -1146,6 +1146,87 @@
             border-color: #3b82f6;
         }
 
+        /* ===== 智能折叠备注框 (v4.9) ===== */
+        .smart-remark {
+            margin-top: 6px;
+            padding-left: 8px;
+            border-left: 3px solid #e2e8f0;
+        }
+        .smart-remark .remark-preview {
+            padding: 6px 10px;
+            background: #f8fafc;
+            border-radius: 4px;
+            font-size: 13px;
+            color: #64748b;
+            cursor: pointer;
+            line-height: 1.5;
+            max-height: 3em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            transition: background 0.15s;
+            user-select: none;
+        }
+        .smart-remark .remark-preview:hover {
+            background: #f1f5f9;
+            color: #475569;
+        }
+        .smart-remark .remark-preview.has-content {
+            color: #334155;
+        }
+        .check-item .remark-area .smart-remark .remark-editor {
+            display: none !important;
+        }
+        .check-item .remark-area .smart-remark .remark-editor.show {
+            display: block !important;
+        }
+        .smart-remark .remark-editor textarea {
+            width: 100%;
+            padding: 6px 10px;
+            border: 1px solid #3b82f6;
+            border-radius: 4px;
+            font-size: 13px;
+            resize: none;
+            background: #fafcff;
+            color: #0f172a;
+            font-family: inherit;
+            line-height: 1.5;
+            overflow: hidden;
+            min-height: 30px;
+        }
+        .smart-remark .remark-editor textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: #ffffff;
+        }
+        .smart-remark .remark-hint {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        /* 暗色主题智能备注 */
+        body.dark .smart-remark .remark-preview {
+            background: #1a1a1a;
+            color: #737373;
+        }
+        body.dark .smart-remark .remark-preview:hover {
+            background: #262626;
+            color: #a3a3a3;
+        }
+        body.dark .smart-remark .remark-preview.has-content {
+            color: #d4d4d4;
+        }
+        body.dark .smart-remark .remark-editor textarea {
+            background: #0a0a0a;
+            border-color: #3b82f6;
+            color: #e5e5e5;
+        }
+        body.dark .smart-remark .remark-editor textarea:focus {
+            background: #141414;
+        }
+
         .check-item .item-status-badge {
             font-size: 12px;
             font-weight: 500;
@@ -1709,7 +1790,7 @@
 <body>
 
     <header class="app-header">
-        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.8 中英双语</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.94 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
             <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
@@ -1908,7 +1989,7 @@
             zh: {
                 // Header
                 'app.title': '🧪 LESU验收小工具',
-                'app.subtitle': '· v4.8 中英双语',
+                'app.subtitle': '· v4.94 中英双语',
                 'header.tester': '验收人：',
                 'header.tester.placeholder': '输入姓名',
                 'header.saved': '💾 已自动保存',
@@ -2048,13 +2129,13 @@
                 'misc.empty': '暂无数据',
                 'misc.loading': '加载中...',
                 'misc.confirmDelete': '确定要删除吗？',
-                'misc.version': 'v4.8',
+                'misc.version': 'v4.94',
                 'misc.lang': '🌐 EN'
             },
             en: {
                 // Header
                 'app.title': '🧪 LESU Acceptance Tool',
-                'app.subtitle': '· v4.8 Bilingual',
+                'app.subtitle': '· v4.94 Bilingual',
                 'header.tester': 'Tester:',
                 'header.tester.placeholder': 'Enter name',
                 'header.saved': '💾 Auto-saved',
@@ -2194,7 +2275,7 @@
                 'misc.empty': 'No data',
                 'misc.loading': 'Loading...',
                 'misc.confirmDelete': 'Are you sure to delete?',
-                'misc.version': 'v4.8',
+                'misc.version': 'v4.94',
                 'misc.lang': '🌐 中'
             }
         };
@@ -2292,6 +2373,31 @@
             step: "第一步",
             title: "[文档中心] 模块挂载",
             description: "操作步骤：\n1. 打开模块仓库\n2. 点击文档中心\n\n预期结果：\n- 模块正常挂载\n- 界面正常显示\n- 无报错信息",
+            required: true,
+            remark: ""
+        }];
+
+        // ================================================================
+        //  SAMPLE DATA (English)
+        // ================================================================
+        const SAMPLE_DATA_EN = [{
+            topic: "DIC V3.5 Document Center Feature Acceptance",
+            round: "Round 1",
+            module: "Document Center",
+            category: "Basic Features",
+            step: "Step 2",
+            title: "[Document Center] Document List Display",
+            description: "Steps:\n1. View the document list table\n2. Check if each column displays correctly\n\nExpected results:\n- Column 1: Checkbox (selectable)\n- Column 2: Title (with category path)\n- Column 3: DOC_ID (clickable to copy)\n- Column 4: Time\n- Column 5: Summary\n- Column 6: Tags (clickable to filter)\n- Column 7: Source\n- Column 8: Remarks\n- Column 9: Actions (more button)",
+            required: true,
+            remark: ""
+        }, {
+            topic: "DIC V3.5 Document Center Feature Acceptance",
+            round: "Round 1",
+            module: "Document Center",
+            category: "Basic Features",
+            step: "Step 1",
+            title: "[Document Center] Module Mounting",
+            description: "Steps:\n1. Open module repository\n2. Click Document Center\n\nExpected results:\n- Module mounts normally\n- Interface displays correctly\n- No error messages",
             required: true,
             remark: ""
         }];
@@ -2479,8 +2585,9 @@
         }
 
         function loadSample() {
-            document.getElementById('jsonInput').value = JSON.stringify(SAMPLE_DATA, null, 2);
-            showToast('📄 已加载示例，点击「导入」生成清单', 'success');
+            const sampleData = currentLang === 'en' ? SAMPLE_DATA_EN : SAMPLE_DATA;
+            document.getElementById('jsonInput').value = JSON.stringify(sampleData, null, 2);
+            showToast(currentLang === 'en' ? '📄 Sample loaded, click 「Import」' : '📄 已加载示例，点击「导入」生成清单', 'success');
         }
 
         function clearAll() {
@@ -2530,18 +2637,16 @@
             if (!item || !item.subItems || subIndex >= item.subItems.length) return;
             const sub = item.subItems[subIndex];
             sub.status = status;
-            // 如果是不通过或不明白，展开备注
-            if (status === 'fail' || status === 'confused') {
-                const remarkEl = document.getElementById(`sub-remark-${itemId}-${subIndex}`);
-                if (remarkEl) remarkEl.classList.add('show');
-            } else if (status === 'pass') {
-                const remarkEl = document.getElementById(`sub-remark-${itemId}-${subIndex}`);
-                if (remarkEl) remarkEl.classList.remove('show');
-            }
             recalcOverallStatus(item);
             renderChecklist();
             updateStats();
             autoSave();
+            // 如果是不通过或不明白，自动展开子项备注编辑器
+            if (status === 'fail' || status === 'confused') {
+                setTimeout(() => {
+                    expandSubSmartRemark(itemId, subIndex);
+                }, 50);
+            }
         }
 
         function updateSubRemark(itemId, subIndex, value) {
@@ -2625,7 +2730,158 @@
         // ================================================================
         function toggleRemark(id) {
             const el = document.getElementById(`remark-${id}`);
+            const wasHidden = !el.classList.contains('show');
             el.classList.toggle('show');
+            // 如果刚展开，同时展开智能备注编辑器
+            if (wasHidden) {
+                setTimeout(() => expandSmartRemark(id), 50);
+            }
+        }
+
+        // ================================================================
+        //  SMART REMARK (智能折叠备注框 v4.9)
+        // ================================================================
+        let activeRemarkId = null;
+        function expandSmartRemark(itemId) {
+            // 先收起之前展开的
+            if (activeRemarkId && activeRemarkId !== itemId) {
+                collapseSmartRemark(activeRemarkId);
+            }
+            const preview = document.getElementById(`remark-preview-${itemId}`);
+            const editor = document.getElementById(`remark-editor-${itemId}`);
+            const textarea = document.getElementById(`remark-textarea-${itemId}`);
+            if (!preview || !editor || !textarea) return;
+            preview.style.display = 'none';
+            editor.classList.add('show');
+            editor.style.display = 'block';
+            activeRemarkId = itemId;
+            textarea.focus();
+            setTimeout(() => autoResizeTextarea(textarea), 10);
+            // 监听点击外部收起
+            setTimeout(() => {
+                document.addEventListener('click', handleDocClickForRemark);
+            }, 50);
+        }
+
+        function handleDocClickForRemark(e) {
+            if (!activeRemarkId) return;
+            const editor = document.getElementById(`remark-editor-${activeRemarkId}`);
+            if (editor && !editor.contains(e.target)) {
+                collapseSmartRemark(activeRemarkId);
+            }
+        }
+
+        // ================================================================
+        //  SUB ITEM SMART REMARK (子项智能折叠备注)
+        // ================================================================
+        let activeSubRemarkId = null;
+        function expandSubSmartRemark(itemId, idx) {
+            const key = `${itemId}-${idx}`;
+            if (activeSubRemarkId && activeSubRemarkId !== key) {
+                const [oldItemId, oldIdx] = activeSubRemarkId.split('-').map(Number);
+                collapseSubSmartRemark(oldItemId, oldIdx);
+            }
+            const preview = document.getElementById(`sub-remark-preview-${itemId}-${idx}`);
+            const editor = document.getElementById(`sub-remark-editor-${itemId}-${idx}`);
+            const textarea = document.getElementById(`sub-remark-textarea-${itemId}-${idx}`);
+            if (!preview || !editor || !textarea) return;
+            preview.style.display = 'none';
+            editor.classList.add('show');
+            editor.style.display = 'block';
+            activeSubRemarkId = key;
+            textarea.focus();
+            setTimeout(() => autoResizeTextarea(textarea), 10);
+            setTimeout(() => {
+                document.addEventListener('click', handleDocClickForSubRemark);
+            }, 50);
+        }
+
+        function handleDocClickForSubRemark(e) {
+            if (!activeSubRemarkId) return;
+            const [itemId, idx] = activeSubRemarkId.split('-').map(Number);
+            const editor = document.getElementById(`sub-remark-editor-${itemId}-${idx}`);
+            if (editor && !editor.contains(e.target)) {
+                collapseSubSmartRemark(itemId, idx);
+            }
+        }
+
+        function collapseSubSmartRemark(itemId, idx) {
+            const preview = document.getElementById(`sub-remark-preview-${itemId}-${idx}`);
+            const editor = document.getElementById(`sub-remark-editor-${itemId}-${idx}`);
+            const textarea = document.getElementById(`sub-remark-textarea-${itemId}-${idx}`);
+            if (!preview || !editor) return;
+            const value = textarea ? textarea.value.trim() : '';
+            if (value) {
+                preview.textContent = value;
+                preview.classList.add('has-content');
+            } else {
+                preview.textContent = currentLang === 'en' ? 'Click to add remark...' : '点击添加备注...';
+                preview.classList.remove('has-content');
+            }
+            editor.classList.remove('show');
+            editor.style.display = 'none';
+            preview.style.display = '';
+            const key = `${itemId}-${idx}`;
+            if (activeSubRemarkId === key) {
+                activeSubRemarkId = null;
+            }
+            document.removeEventListener('click', handleDocClickForSubRemark);
+            autoSave();
+        }
+
+        function handleSubRemarkKeydown(event, itemId, idx) {
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                collapseSubSmartRemark(itemId, idx);
+            }
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                collapseSubSmartRemark(itemId, idx);
+            }
+        }
+
+        function collapseSmartRemark(itemId) {
+            const preview = document.getElementById(`remark-preview-${itemId}`);
+            const editor = document.getElementById(`remark-editor-${itemId}`);
+            const textarea = document.getElementById(`remark-textarea-${itemId}`);
+            if (!preview || !editor) return;
+            const value = textarea ? textarea.value.trim() : '';
+            // 更新预览
+            if (value) {
+                preview.textContent = value;
+                preview.classList.add('has-content');
+            } else {
+                preview.textContent = currentLang === 'en' ? 'Click to add remark...' : '点击添加备注...';
+                preview.classList.remove('has-content');
+            }
+            // 强制收起
+            editor.classList.remove('show');
+            editor.style.display = 'none';
+            preview.style.display = '';
+            if (activeRemarkId === itemId) {
+                activeRemarkId = null;
+            }
+            document.removeEventListener('click', handleDocClickForRemark);
+            autoSave();
+        }
+
+        function handleRemarkKeydown(event, itemId) {
+            // 回车收起（Shift+Enter换行）
+            if (event.key === 'Enter' && !event.shiftKey) {
+                event.preventDefault();
+                collapseSmartRemark(itemId);
+            }
+            // Esc收起
+            if (event.key === 'Escape') {
+                event.preventDefault();
+                collapseSmartRemark(itemId);
+            }
+        }
+
+        function autoResizeTextarea(textarea) {
+            if (!textarea) return;
+            textarea.style.height = 'auto';
+            textarea.style.height = Math.max(textarea.scrollHeight, 30) + 'px';
         }
 
         // ================================================================
@@ -2790,7 +3046,14 @@
                                 </div>
                                 <div class="sub-item">
                                     <div class="sub-remark-area ${showSubRemark ? 'show' : ''}" id="sub-remark-${item.id}-${idx}">
-                                        <textarea placeholder="针对该项填写备注（问题描述、不理解的原因等）..." oninput="updateSubRemark(${item.id}, ${idx}, this.value)">${escapeHtml(sub.remark || '')}</textarea>
+                                        <div class="smart-remark" id="sub-smart-remark-${item.id}-${idx}">
+                                            <div class="remark-preview ${sub.remark ? 'has-content' : ''}" id="sub-remark-preview-${item.id}-${idx}" onclick="expandSubSmartRemark(${item.id}, ${idx})">
+                                                ${sub.remark ? escapeHtml(sub.remark) : (currentLang === 'en' ? 'Click to add remark...' : '点击添加备注...')}
+                                            </div>
+                                            <div class="remark-editor ${showSubRemark ? 'show' : ''}" id="sub-remark-editor-${item.id}-${idx}" style="${showSubRemark ? 'display:block;' : ''}">
+                                                <textarea id="sub-remark-textarea-${item.id}-${idx}" placeholder="${currentLang === 'en' ? 'Remark for this item...' : '针对该项填写备注（问题描述、不理解的原因等）...'}" oninput="autoResizeTextarea(this); updateSubRemark(${item.id}, ${idx}, this.value)" onkeydown="handleSubRemarkKeydown(event, ${item.id}, ${idx})">${escapeHtml(sub.remark || '')}</textarea>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             `;
@@ -2835,7 +3098,15 @@
                             </div>
                             <div class="remark-area ${item.remark || item.hint || (item.screenshots && item.screenshots.length > 0) ? 'show' : ''}" id="remark-${item.id}">
                                 ${item.hint ? `<div class="remark-hint">💡 <strong>预填说明：</strong>${escapeHtml(item.hint)}</div>` : ''}
-                                <textarea placeholder="整体备注（适用于整个验收项的额外说明）..." oninput="updateRemark(${item.id}, this.value)" onpaste="handleRemarkPaste(event, ${item.id})">${escapeHtml(item.remark)}</textarea>
+                                <div class="smart-remark" id="smart-remark-${item.id}">
+                                    <div class="remark-preview ${item.remark ? 'has-content' : ''}" id="remark-preview-${item.id}" onclick="expandSmartRemark(${item.id})">
+                                        ${item.remark ? escapeHtml(item.remark) : (currentLang === 'en' ? 'Click to add remark...' : '点击添加备注...')}
+                                    </div>
+                                    <div class="remark-editor" id="remark-editor-${item.id}">
+                                        <textarea id="remark-textarea-${item.id}" placeholder="${currentLang === 'en' ? 'Overall remark (paste screenshot Ctrl+V)...' : '整体备注（适用于整个验收项的额外说明，可粘贴截图 Ctrl+V）...'}" oninput="autoResizeTextarea(this); updateRemark(${item.id}, this.value)" onpaste="handleRemarkPaste(event, ${item.id})" onkeydown="handleRemarkKeydown(event, ${item.id})">${escapeHtml(item.remark)}</textarea>
+                                        <div class="remark-hint">${currentLang === 'en' ? 'Click outside to save and collapse' : '点击其他地方自动保存并收起'}</div>
+                                    </div>
+                                </div>
                                 <div class="screenshot-list-inline" id="screenshot-inline-${item.id}">
                                     ${renderScreenshots(item)}
                                 </div>
@@ -2848,6 +3119,12 @@
             }
 
             container.innerHTML = html;
+            // 自适应所有显示的textarea高度
+            setTimeout(() => {
+                document.querySelectorAll('.remark-editor.show textarea, .sub-remark-area.show textarea').forEach(ta => {
+                    autoResizeTextarea(ta);
+                });
+            }, 10);
         }
 
         function toggleCategory(catName) {
