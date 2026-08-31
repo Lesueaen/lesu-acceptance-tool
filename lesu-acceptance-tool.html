@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LESU验收小工具 v4.97</title>
+    <title>LESU验收小工具 v5.0</title>
     <style>
         /* ===== 基础样式 ===== */
         * {
@@ -1356,34 +1356,81 @@
             background: #94a3b8;
         }
 
-        /* 小窗口布局：右侧验收清单在上，左侧导入/报告在下 */
-        @media (max-width: 600px) {
+        /* 移动端布局：右侧验收清单在上，左侧功能区在下 */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                overflow: visible;
+            }
             .app-container {
                 flex-direction: column-reverse;
                 height: auto;
-                overflow-y: auto;
+                min-height: calc(100vh - 56px);
+                overflow: visible;
             }
             .left-panel {
                 width: 100%;
                 min-width: unset;
                 height: auto;
+                min-height: unset;
                 border-right: none;
-                border-top: 1px solid #e2e8f0;
-                max-height: 50vh;
+                border-top: 2px solid #3b82f6;
+                max-height: none;
+                overflow-y: visible;
             }
             .left-panel.collapsed {
                 max-height: 0 !important;
                 padding: 0 !important;
                 border-top: none;
+                overflow: hidden !important;
             }
             .right-panel {
+                width: 100%;
                 padding: 16px;
                 height: auto;
-                max-height: 50vh;
+                min-height: unset;
+                max-height: none;
+                overflow-y: visible;
             }
             .json-import-area textarea {
                 height: 80px;
             }
+        }
+
+        /* 回到功能区按钮 */
+        .back-to-functions {
+            display: flex;
+            margin: 16px 0;
+            padding: 10px 18px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
+            transition: all 0.2s ease;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .back-to-functions:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
+        }
+        .back-to-functions:active {
+            transform: translateY(0);
+        }
+        #backToFunctionsTop {
+            margin-top: 8px;
+            margin-bottom: 16px;
+        }
+        #backToFunctionsBottom {
+            margin-top: 24px;
+            position: sticky;
+            bottom: 16px;
+            z-index: 50;
         }
 
         .toast {
@@ -1799,7 +1846,7 @@
 <body>
 
     <header class="app-header">
-        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.97 中英双语</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v5.0 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
             <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
@@ -1957,6 +2004,7 @@
                 </h2>
                 <span class="progress-text" id="progressText" data-i18n="right.progress" data-i18n-params='{"n":0,"total":0}'>0 / 0 已完成</span>
             </div>
+            <button class="back-to-functions" id="backToFunctionsTop" onclick="scrollToFunctions()" data-i18n="right.backToFunctions">⬅ 回到功能区</button>
             <div class="topic-bar">
                 <span class="topic-label" data-i18n="right.topic">📌 验收主题：</span>
                 <input type="text" class="topic-input" id="topicInput" data-i18n-placeholder="right.topicPlaceholder" placeholder="如：DIC V3.5 文档中心功能验收" oninput="updateTopic(this.value)" />
@@ -1981,6 +2029,7 @@
                     <p>请在左侧导入 JSON 数据，系统将自动生成验收清单。</p>
                 </div>
             </div>
+            <button class="back-to-functions" id="backToFunctionsBottom" onclick="scrollToFunctions()" data-i18n="right.backToFunctions">⬅ 回到功能区</button>
         </div>
     </div>
 
@@ -1998,7 +2047,7 @@
             zh: {
                 // Header
                 'app.title': '🧪 LESU验收小工具',
-                'app.subtitle': '· v4.97 中英双语',
+                'app.subtitle': '· v5.0 中英双语',
                 'header.tester': '验收人：',
                 'header.tester.placeholder': '输入姓名',
                 'header.saved': '💾 已自动保存',
@@ -2033,6 +2082,7 @@
                 'right.title': '✅ 验收清单',
                 'right.total': '共 {n} 项',
                 'right.progress': '{n} / {total} 已完成',
+                'right.backToFunctions': '⬅ 回到功能区',
                 'right.topic': '📌 验收主题：',
                 'right.topicPlaceholder': '如：DIC V3.5 文档中心功能验收',
                 // Status
@@ -2138,13 +2188,13 @@
                 'misc.empty': '暂无数据',
                 'misc.loading': '加载中...',
                 'misc.confirmDelete': '确定要删除吗？',
-                'misc.version': 'v4.97',
+                'misc.version': 'v5.0',
                 'misc.lang': '🌐 EN'
             },
             en: {
                 // Header
                 'app.title': '🧪 LESU Acceptance Tool',
-                'app.subtitle': '· v4.97 Bilingual',
+                'app.subtitle': '· v5.0 Bilingual',
                 'header.tester': 'Tester:',
                 'header.tester.placeholder': 'Enter name',
                 'header.saved': '💾 Auto-saved',
@@ -2179,6 +2229,7 @@
                 'right.title': '✅ Acceptance Checklist',
                 'right.total': '{n} items',
                 'right.progress': '{n} / {total} done',
+                'right.backToFunctions': '⬅ Back to Functions',
                 'right.topic': '📌 Topic:',
                 'right.topicPlaceholder': 'e.g., DIC V3.5 Doc Center Feature',
                 // Status
@@ -2284,7 +2335,7 @@
                 'misc.empty': 'No data',
                 'misc.loading': 'Loading...',
                 'misc.confirmDelete': 'Are you sure to delete?',
-                'misc.version': 'v4.97',
+                'misc.version': 'v5.0',
                 'misc.lang': '🌐 中'
             }
         };
@@ -2610,6 +2661,30 @@
             document.getElementById('reportCountDisplay').textContent = '待生成';
             autoSave();
             showToast('已清空', 'success');
+        }
+
+        // ================================================================
+        //  SCROLL TO FUNCTIONS - 回到功能区
+        // ================================================================
+        function scrollToFunctions() {
+            const leftPanel = document.querySelector('.left-panel');
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // 移动端：滚动到左侧功能区
+                leftPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            } else {
+                // 桌面端：左侧面板滚动到顶部，并高亮
+                leftPanel.scrollTop = 0;
+                leftPanel.style.transition = 'box-shadow 0.3s ease';
+                leftPanel.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.5)';
+                setTimeout(() => {
+                    leftPanel.style.boxShadow = '';
+                }, 1500);
+            }
+            
+            // 显示提示
+            showToast('已回到功能区');
         }
 
         // ================================================================
