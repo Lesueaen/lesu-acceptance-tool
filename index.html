@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LESU验收小工具 v4.94</title>
+    <title>LESU验收小工具 v4.95</title>
     <style>
         /* ===== 基础样式 ===== */
         * {
@@ -14,8 +14,8 @@
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
             background: #f1f5f9;
-            height: 100vh;
-            overflow: hidden;
+            min-height: 100vh;
+            overflow-x: hidden;
             color: #0f172a;
         }
 
@@ -97,8 +97,7 @@
         /* ===== 主容器 ===== */
         .app-container {
             display: flex;
-            height: calc(100vh - 56px);
-            overflow: hidden;
+            min-height: calc(100vh - 56px);
             transition: all 0.25s ease;
         }
 
@@ -1790,7 +1789,7 @@
 <body>
 
     <header class="app-header">
-        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.94 中英双语</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v4.95 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
             <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
@@ -1989,7 +1988,7 @@
             zh: {
                 // Header
                 'app.title': '🧪 LESU验收小工具',
-                'app.subtitle': '· v4.94 中英双语',
+                'app.subtitle': '· v4.95 中英双语',
                 'header.tester': '验收人：',
                 'header.tester.placeholder': '输入姓名',
                 'header.saved': '💾 已自动保存',
@@ -2129,13 +2128,13 @@
                 'misc.empty': '暂无数据',
                 'misc.loading': '加载中...',
                 'misc.confirmDelete': '确定要删除吗？',
-                'misc.version': 'v4.94',
+                'misc.version': 'v4.95',
                 'misc.lang': '🌐 EN'
             },
             en: {
                 // Header
                 'app.title': '🧪 LESU Acceptance Tool',
-                'app.subtitle': '· v4.94 Bilingual',
+                'app.subtitle': '· v4.95 Bilingual',
                 'header.tester': 'Tester:',
                 'header.tester.placeholder': 'Enter name',
                 'header.saved': '💾 Auto-saved',
@@ -2275,7 +2274,7 @@
                 'misc.empty': 'No data',
                 'misc.loading': 'Loading...',
                 'misc.confirmDelete': 'Are you sure to delete?',
-                'misc.version': 'v4.94',
+                'misc.version': 'v4.95',
                 'misc.lang': '🌐 中'
             }
         };
@@ -3912,13 +3911,9 @@
             return lines.join('\n');
         }
 
-        function exportReport() {
+        function exportReport(format) {
             if (!window._lastReport) { showToast('请先生成报告', 'error'); return; }
-            const blob = new Blob([window._lastReport], { type: 'text/markdown;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-
+            const fmt = format || 'text';
             const tester = document.getElementById('testerName').value.trim() || '未命名';
             const topic = currentTopic || '验收报告';
             const safeTopic = topic.replace(/[\\/:*?"<>|]/g, '_').substring(0, 30);
@@ -3927,12 +3922,95 @@
             const now = new Date();
             const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
             const timeStr = `${String(now.getHours()).padStart(2,'0')}${String(now.getMinutes()).padStart(2,'0')}`;
-            const fileName = `${safeTopic}_${roundText}_${dateStr}_${timeStr}_${tester}.md`;
 
-            a.download = fileName;
-            a.click();
-            URL.revokeObjectURL(url);
-            showToast(`📤 已导出：${fileName}`, 'success');
+            if (fmt === 'html') {
+                // 导出带样式的HTML报告
+                const htmlContent = `<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>${escapeHtml(topic)} - 验收报告</title>
+<style>
+body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 900px; margin: 0 auto; padding: 40px 20px; color: #1a1a1a; line-height: 1.7; background: #fafafa; }
+h1 { color: #1e40af; border-bottom: 3px solid #3b82f6; padding-bottom: 12px; }
+h2 { color: #1e3a8a; margin-top: 32px; border-left: 4px solid #3b82f6; padding-left: 12px; }
+h3 { color: #334155; margin-top: 24px; }
+table { border-collapse: collapse; width: 100%; margin: 16px 0; background: white; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+th, td { border: 1px solid #e2e8f0; padding: 10px 14px; text-align: left; }
+th { background: #f1f5f9; font-weight: 600; color: #334155; }
+tr:nth-child(even) { background: #f8fafc; }
+.pass { color: #16a34a; font-weight: 600; }
+.fail { color: #dc2626; font-weight: 600; }
+.confused { color: #d97706; font-weight: 600; }
+.pending { color: #64748b; }
+.meta { background: #eff6ff; padding: 16px 20px; border-radius: 8px; margin: 16px 0; }
+.meta p { margin: 4px 0; }
+.remark { background: #fef3c7; padding: 8px 12px; border-radius: 4px; margin: 6px 0; font-size: 14px; color: #92400e; }
+.sub-item { margin-left: 24px; font-size: 14px; color: #475569; }
+@media print { body { background: white; padding: 20px; } table { box-shadow: none; } }
+</style>
+</head>
+<body>
+${markdownToHtmlSimple(window._lastReport)}
+</body>
+</html>`;
+                const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const fileName = `${safeTopic}_${roundText}_${dateStr}_${timeStr}_${tester}.html`;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast(`📤 已导出HTML：${fileName}`, 'success');
+            } else {
+                // 导出MD
+                const blob = new Blob([window._lastReport], { type: 'text/markdown;charset=utf-8' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                const fileName = `${safeTopic}_${roundText}_${dateStr}_${timeStr}_${tester}.md`;
+                a.download = fileName;
+                a.click();
+                URL.revokeObjectURL(url);
+                showToast(`📤 已导出MD：${fileName}`, 'success');
+            }
+        }
+
+        // 简单的Markdown转HTML（用于导出HTML报告）
+        function markdownToHtmlSimple(md) {
+            if (!md) return '';
+            let html = md;
+            // 标题
+            html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+            // 粗体
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+            // 表格行
+            const lines = html.split('\n');
+            let inTable = false;
+            let tableHtml = '';
+            let result = [];
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i];
+                if (line.startsWith('|') && line.endsWith('|')) {
+                    if (!inTable) { inTable = true; tableHtml = '<table>'; }
+                    const cells = line.split('|').slice(1, -1).map(c => c.trim());
+                    if (cells.every(c => /^[-:]+$/.test(c))) { continue; }
+                    if (tableHtml.endsWith('</tr>') || tableHtml.endsWith('<table>')) {
+                        const isHeader = !tableHtml.includes('<tbody>');
+                        tableHtml += '<tr>' + cells.map(c => isHeader ? `<th>${c}</th>` : `<td>${c}</td>`).join('') + '</tr>';
+                    }
+                } else {
+                    if (inTable) { inTable = false; tableHtml += '</table>'; result.push(tableHtml); tableHtml = ''; }
+                    if (line.startsWith('- ')) { result.push('<div class="sub-item">• ' + line.substring(2) + '</div>'); }
+                    else if (line.trim() !== '') { result.push('<p>' + line + '</p>'); }
+                }
+            }
+            if (inTable) { tableHtml += '</table>'; result.push(tableHtml); }
+            return result.join('\n');
         }
 
         function clearReport() {
@@ -4228,6 +4306,38 @@
             applyTranslations();
             // 折叠按钮
             document.getElementById('panelToggleBtn').addEventListener('click', togglePanel);
+            // 导入区域拖拽JSON文件支持
+            const jsonInput = document.getElementById('jsonInput');
+            if (jsonInput) {
+                jsonInput.addEventListener('dragover', (e) => {
+                    e.preventDefault();
+                    jsonInput.style.borderColor = '#3b82f6';
+                    jsonInput.style.background = '#eff6ff';
+                });
+                jsonInput.addEventListener('dragleave', () => {
+                    jsonInput.style.borderColor = '';
+                    jsonInput.style.background = '';
+                });
+                jsonInput.addEventListener('drop', (e) => {
+                    e.preventDefault();
+                    jsonInput.style.borderColor = '';
+                    jsonInput.style.background = '';
+                    const files = e.dataTransfer.files;
+                    if (files.length > 0) {
+                        const file = files[0];
+                        if (file.name.endsWith('.json') || file.name.endsWith('.txt')) {
+                            const reader = new FileReader();
+                            reader.onload = (ev) => {
+                                jsonInput.value = ev.target.result;
+                                showToast(`📄 已导入文件：${file.name}`, 'success');
+                            };
+                            reader.readAsText(file, 'UTF-8');
+                        } else {
+                            showToast('⚠️ 仅支持 .json 或 .txt 文件', 'error');
+                        }
+                    }
+                });
+            }
             const restored = loadSavedData();
             if (!restored) {
                 loadSample();
