@@ -1397,40 +1397,42 @@
             }
         }
 
-        /* 回到功能区按钮 */
+        /* 回到头部按钮 - 小巧箭头样式 */
         .back-to-functions {
-            display: flex;
-            margin: 16px 0;
-            padding: 10px 18px;
-            background: linear-gradient(135deg, #3b82f6, #2563eb);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
+            display: inline-flex;
+            margin: 4px 0;
+            padding: 4px 8px;
+            background: transparent;
+            color: #94a3b8;
+            border: 1px solid #e2e8f0;
+            border-radius: 50%;
+            font-size: 14px;
+            line-height: 1;
             cursor: pointer;
-            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.3);
             transition: all 0.2s ease;
             align-items: center;
             justify-content: center;
-            gap: 6px;
+            width: 28px;
+            height: 28px;
         }
         .back-to-functions:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
-        }
-        .back-to-functions:active {
-            transform: translateY(0);
-        }
-        #backToFunctionsTop {
-            margin-top: 8px;
-            margin-bottom: 16px;
+            color: #3b82f6;
+            border-color: #3b82f6;
+            background: #f0f7ff;
         }
         #backToFunctionsBottom {
-            margin-top: 24px;
-            position: sticky;
-            bottom: 16px;
-            z-index: 50;
+            margin: 20px auto 8px auto;
+            display: flex;
+        }
+        /* 分类下面的回到头部按钮 - 右对齐 */
+        .cat-back-btn {
+            margin: 2px 0 8px 0;
+            float: right;
+        }
+        .category-group::after {
+            content: '';
+            display: table;
+            clear: both;
         }
 
         .toast {
@@ -2004,7 +2006,6 @@
                 </h2>
                 <span class="progress-text" id="progressText" data-i18n="right.progress" data-i18n-params='{"n":0,"total":0}'>0 / 0 已完成</span>
             </div>
-            <button class="back-to-functions" id="backToFunctionsTop" onclick="scrollToFunctions()" data-i18n="right.backToFunctions">⬅ 回到功能区</button>
             <div class="topic-bar">
                 <span class="topic-label" data-i18n="right.topic">📌 验收主题：</span>
                 <input type="text" class="topic-input" id="topicInput" data-i18n-placeholder="right.topicPlaceholder" placeholder="如：DIC V3.5 文档中心功能验收" oninput="updateTopic(this.value)" />
@@ -2029,7 +2030,7 @@
                     <p>请在左侧导入 JSON 数据，系统将自动生成验收清单。</p>
                 </div>
             </div>
-            <button class="back-to-functions" id="backToFunctionsBottom" onclick="scrollToFunctions()" data-i18n="right.backToFunctions">⬅ 回到功能区</button>
+            <button class="back-to-functions" id="backToFunctionsBottom" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到头部">⬆</button>
         </div>
     </div>
 
@@ -2082,7 +2083,6 @@
                 'right.title': '✅ 验收清单',
                 'right.total': '共 {n} 项',
                 'right.progress': '{n} / {total} 已完成',
-                'right.backToFunctions': '⬅ 回到功能区',
                 'right.topic': '📌 验收主题：',
                 'right.topicPlaceholder': '如：DIC V3.5 文档中心功能验收',
                 // Status
@@ -2229,7 +2229,6 @@
                 'right.title': '✅ Acceptance Checklist',
                 'right.total': '{n} items',
                 'right.progress': '{n} / {total} done',
-                'right.backToFunctions': '⬅ Back to Functions',
                 'right.topic': '📌 Topic:',
                 'right.topicPlaceholder': 'e.g., DIC V3.5 Doc Center Feature',
                 // Status
@@ -2664,30 +2663,6 @@
         }
 
         // ================================================================
-        //  SCROLL TO FUNCTIONS - 回到功能区
-        // ================================================================
-        function scrollToFunctions() {
-            const leftPanel = document.querySelector('.left-panel');
-            const isMobile = window.innerWidth <= 768;
-            
-            if (isMobile) {
-                // 移动端：滚动到左侧功能区
-                leftPanel.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            } else {
-                // 桌面端：左侧面板滚动到顶部，并高亮
-                leftPanel.scrollTop = 0;
-                leftPanel.style.transition = 'box-shadow 0.3s ease';
-                leftPanel.style.boxShadow = '0 0 0 3px rgba(59, 130, 246, 0.5)';
-                setTimeout(() => {
-                    leftPanel.style.boxShadow = '';
-                }, 1500);
-            }
-            
-            // 显示提示
-            showToast('已回到功能区');
-        }
-
-        // ================================================================
         //  FILTER & SEARCH
         // ================================================================
         function setFilter(filter) {
@@ -3088,6 +3063,7 @@
                                 ${confusedCount > 0 ? `<span class="confused-count">❓ ${confusedCount}</span>` : ''}
                             </span>
                         </div>
+                        <button class="back-to-functions cat-back-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="回到头部">⬆</button>
                         <div class="category-body ${isCollapsed ? 'collapsed' : ''}">
                 `;
 
