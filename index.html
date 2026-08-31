@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LESU验收小工具 v5.1</title>
+    <title>LESU验收小工具 v5.3</title>
     <style>
         /* ===== 基础样式 ===== */
         * {
@@ -624,101 +624,11 @@
             flex: 1;
             height: 100%;
             min-height: 0;
-            padding: 16px 24px 16px 60px;
+            padding: 16px 24px;
             overflow-y: auto;
             background: #f8fafc;
             display: flex;
             flex-direction: column;
-            position: relative;
-        }
-
-        /* ===== 垂直导航条 ===== */
-        .vertical-nav {
-            position: absolute;
-            left: 12px;
-            top: 16px;
-            bottom: 16px;
-            width: 36px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 4px;
-            z-index: 10;
-        }
-        .nav-btn {
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            border: 1px solid #e2e8f0;
-            background: white;
-            color: #94a3b8;
-            font-size: 14px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-        .nav-btn:hover {
-            color: #3b82f6;
-            border-color: #3b82f6;
-            background: #f0f7ff;
-        }
-        .nav-numbers {
-            flex: 1;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 3px;
-            padding: 4px 0;
-            width: 100%;
-        }
-        .nav-numbers::-webkit-scrollbar {
-            width: 2px;
-        }
-        .nav-numbers::-webkit-scrollbar-thumb {
-            background: #cbd5e1;
-            border-radius: 1px;
-        }
-        .nav-num {
-            width: 28px;
-            height: 28px;
-            border-radius: 6px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            color: #64748b;
-            font-size: 11px;
-            font-weight: 600;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-            flex-shrink: 0;
-        }
-        .nav-num:hover {
-            color: #3b82f6;
-            border-color: #3b82f6;
-            background: #f0f7ff;
-        }
-        .nav-num.active {
-            background: #3b82f6;
-            color: white;
-            border-color: #3b82f6;
-        }
-        .nav-num.pass {
-            border-color: #22c55e;
-            color: #22c55e;
-        }
-        .nav-num.fail {
-            border-color: #ef4444;
-            color: #ef4444;
-        }
-        .nav-num.confused {
-            border-color: #f59e0b;
-            color: #f59e0b;
         }
         .right-panel .panel-header {
             display: flex;
@@ -951,9 +861,7 @@
             font-size: 18px;
             line-height: 1;
             color: #ffffff;
-            background: #3b82f6;
             border-radius: 8px;
-            padding: 6px 8px;
             min-width: 40px;
             text-align: center;
             flex-shrink: 0;
@@ -962,7 +870,19 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            overflow: hidden;
+            align-self: stretch;
+        }
+        /* 色区1：计数区域 - 深蓝色 */
+        .check-item .item-index .idx-count {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             gap: 2px;
+            flex-shrink: 0;
+            background: #1e40af;
+            width: 100%;
+            padding: 8px 4px;
         }
         .check-item .item-index .idx-current {
             font-size: 20px;
@@ -976,6 +896,75 @@
         .check-item .item-index .idx-total {
             font-size: 14px;
             opacity: 0.8;
+        }
+        /* 色区2：数字跳转区域 - 中蓝色 */
+        .check-item .item-index .idx-numbers {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            flex: 1;
+            overflow: hidden;
+            width: 100%;
+            background: #3b82f6;
+            padding: 4px 0;
+            min-height: 0;
+        }
+        .check-item .item-index .idx-num {
+            width: 28px;
+            height: 22px;
+            border-radius: 4px;
+            border: none;
+            background: transparent;
+            color: rgba(255,255,255,0.8);
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            padding: 0;
+        }
+        .check-item .item-index .idx-num:hover {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
+        .check-item .item-index .idx-num.current {
+            background: white;
+            color: #3b82f6;
+        }
+        /* 色区3：箭头区域 - 浅蓝色 */
+        .check-item .item-index .idx-arrows {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            flex-shrink: 0;
+            background: #60a5fa;
+            width: 100%;
+            padding: 6px 4px;
+        }
+        .check-item .item-index .idx-arrow-btn {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.25);
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            flex-shrink: 0;
+            padding: 0;
+        }
+        .check-item .item-index .idx-arrow-btn:hover {
+            background: rgba(255,255,255,0.5);
         }
         .check-item .item-body {
             flex: 1;
@@ -1938,7 +1927,7 @@
 <body>
 
     <header class="app-header">
-        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v5.1 中英双语</span></h1>
+        <h1><span data-i18n="app.title">🧪 LESU验收小工具</span> <span class="sub" data-i18n="app.subtitle">· v5.3 中英双语</span></h1>
         <div class="header-right">
             <span class="theme-toggle" id="themeToggle" onclick="toggleTheme()" title="切换主题">🌙</span>
             <span class="theme-toggle" id="langToggle" onclick="toggleLang()" title="切换语言">🌐 EN</span>
@@ -2088,12 +2077,6 @@
 
         <!-- ===== 右侧面板 ===== -->
         <div class="right-panel" id="rightPanel">
-            <!-- 垂直导航条 -->
-            <div class="vertical-nav" id="verticalNav">
-                <button class="nav-btn" onclick="scrollToTop()" title="回到顶部">⬆</button>
-                <div class="nav-numbers" id="navNumbers"></div>
-                <button class="nav-btn" onclick="scrollToBottom()" title="回到底部">⬇</button>
-            </div>
             <div class="panel-header">
                 <h2>
                     <button class="panel-toggle-btn" id="panelToggleBtn" title="切换左侧面板">◀</button>
@@ -2143,7 +2126,7 @@
             zh: {
                 // Header
                 'app.title': '🧪 LESU验收小工具',
-                'app.subtitle': '· v5.1 中英双语',
+                'app.subtitle': '· v5.3 中英双语',
                 'header.tester': '验收人：',
                 'header.tester.placeholder': '输入姓名',
                 'header.saved': '💾 已自动保存',
@@ -2283,13 +2266,13 @@
                 'misc.empty': '暂无数据',
                 'misc.loading': '加载中...',
                 'misc.confirmDelete': '确定要删除吗？',
-                'misc.version': 'v5.1',
+                'misc.version': 'v5.3',
                 'misc.lang': '🌐 EN'
             },
             en: {
                 // Header
                 'app.title': '🧪 LESU Acceptance Tool',
-                'app.subtitle': '· v5.1 Bilingual',
+                'app.subtitle': '· v5.3 Bilingual',
                 'header.tester': 'Tester:',
                 'header.tester.placeholder': 'Enter name',
                 'header.saved': '💾 Auto-saved',
@@ -2429,7 +2412,7 @@
                 'misc.empty': 'No data',
                 'misc.loading': 'Loading...',
                 'misc.confirmDelete': 'Are you sure to delete?',
-                'misc.version': 'v5.1',
+                'misc.version': 'v5.3',
                 'misc.lang': '🌐 中'
             }
         };
@@ -2758,7 +2741,7 @@
         }
 
         // ================================================================
-        //  VERTICAL NAV - 垂直导航条
+        //  ITEM NAV - 每个项目内的导航
         // ================================================================
         function scrollToTop() {
             const rightPanel = document.getElementById('rightPanel');
@@ -2770,53 +2753,85 @@
             rightPanel.scrollTo({ top: rightPanel.scrollHeight, behavior: 'smooth' });
         }
 
-        function renderNavNumbers() {
-            const navNumbers = document.getElementById('navNumbers');
-            if (!navNumbers) return;
-            
+        // 渲染所有项目的导航数字（根据项目实际高度动态缩略）
+        function renderAllItemNav() {
             const filtered = getFilteredItems();
-            if (filtered.length === 0) {
-                navNumbers.innerHTML = '';
-                return;
-            }
+            if (filtered.length === 0) return;
 
-            let html = '';
-            filtered.forEach((item, idx) => {
-                const statusClass = item.status || '';
-                html += `<button class="nav-num ${statusClass}" onclick="jumpToItem(${idx + 1})" title="第${idx + 1}项: ${escapeHtml(item.title)}">${idx + 1}</button>`;
-            });
-            navNumbers.innerHTML = html;
+            // 延迟到DOM渲染后计算高度
+            setTimeout(() => {
+                filtered.forEach((item, idx) => {
+                    const navContainer = document.getElementById(`idx-numbers-${item.id}`);
+                    if (!navContainer) return;
 
-            // 监听滚动，高亮当前可见项
-            const rightPanel = document.getElementById('rightPanel');
-            rightPanel.onscroll = () => updateActiveNavNumber();
+                    // 获取item-index实际高度
+                    const itemIndex = navContainer.closest('.item-index');
+                    if (!itemIndex) return;
+                    const indexHeight = itemIndex.offsetHeight;
+
+                    // 获取计数区域和箭头区域的实际高度
+                    const countArea = itemIndex.querySelector('.idx-count');
+                    const arrowsArea = itemIndex.querySelector('.idx-arrows');
+                    const countHeight = countArea ? countArea.offsetHeight : 60;
+                    const arrowsHeight = arrowsArea ? arrowsArea.offsetHeight : 34;
+
+                    // 可用高度 = 总高度 - 计数区域 - 箭头区域
+                    const availableHeight = indexHeight - countHeight - arrowsHeight;
+
+                    // 每个数字高度：22px + 2px gap = 24px
+                    const numHeight = 24;
+                    let maxVisible = Math.floor(availableHeight / numHeight);
+
+                    // 至少显示3个数字
+                    if (maxVisible < 3) maxVisible = 3;
+
+                    // 生成要显示的数字列表
+                    const total = filtered.length;
+                    let numsToShow;
+
+                    if (maxVisible >= total) {
+                        // 能放下全部，显示全部
+                        numsToShow = Array.from({length: total}, (_, i) => i + 1);
+                    } else {
+                        // 需要缩略，平均间隔
+                        numsToShow = [];
+                        const interval = total / maxVisible;
+                        for (let i = 0; i < maxVisible; i++) {
+                            const num = Math.round(1 + i * interval);
+                            if (num <= total && !numsToShow.includes(num)) {
+                                numsToShow.push(num);
+                            }
+                        }
+                        // 确保第一个是1，最后一个是total
+                        if (numsToShow[0] !== 1) numsToShow.unshift(1);
+                        if (numsToShow[numsToShow.length - 1] !== total) numsToShow.push(total);
+                        // 确保当前项目的数字一定显示
+                        const currentNum = idx + 1;
+                        if (!numsToShow.includes(currentNum)) {
+                            numsToShow.push(currentNum);
+                            numsToShow.sort((a, b) => a - b);
+                        }
+                    }
+
+                    // 渲染数字
+                    let html = '';
+                    numsToShow.forEach(num => {
+                        const isCurrent = num === (idx + 1);
+                        html += `<button class="idx-num ${isCurrent ? 'current' : ''}" onclick="event.stopPropagation(); jumpToItem(${num})" title="跳转到第${num}项">${num}</button>`;
+                    });
+                    navContainer.innerHTML = html;
+                });
+            }, 50);
         }
 
         function jumpToItem(index) {
-            const item = document.querySelector(`.check-item[data-index="${index}"]`);
-            if (item) {
+            const items = document.querySelectorAll('.check-item');
+            const targetItem = items[index - 1];
+            if (targetItem) {
                 const rightPanel = document.getElementById('rightPanel');
-                const itemTop = item.offsetTop - rightPanel.offsetTop - 20;
+                const itemTop = targetItem.offsetTop - rightPanel.offsetTop - 10;
                 rightPanel.scrollTo({ top: itemTop, behavior: 'smooth' });
             }
-        }
-
-        function updateActiveNavNumber() {
-            const rightPanel = document.getElementById('rightPanel');
-            const items = document.querySelectorAll('.check-item');
-            const navNums = document.querySelectorAll('.nav-num');
-            
-            let activeIndex = -1;
-            items.forEach((item, idx) => {
-                const itemTop = item.offsetTop - rightPanel.offsetTop;
-                if (itemTop <= rightPanel.scrollTop + 100) {
-                    activeIndex = idx;
-                }
-            });
-
-            navNums.forEach((num, idx) => {
-                num.classList.toggle('active', idx === activeIndex);
-            });
         }
 
         // ================================================================
@@ -3281,9 +3296,16 @@
                         <div class="check-item ${requiredFail ? 'required-fail' : ''}" id="item-${item.id}" data-index="${globalIndex}">
                             <div class="item-row">
                                 <div class="item-index">
-                                    <span class="idx-current">${globalIndex}</span>
-                                    <span class="idx-divider"></span>
-                                    <span class="idx-total">${filtered.length}</span>
+                                    <div class="idx-count">
+                                        <span class="idx-current">${globalIndex}</span>
+                                        <span class="idx-divider"></span>
+                                        <span class="idx-total">${filtered.length}</span>
+                                    </div>
+                                    <div class="idx-numbers" id="idx-numbers-${item.id}"></div>
+                                    <div class="idx-arrows">
+                                        <button class="idx-arrow-btn" onclick="event.stopPropagation(); scrollToTop()" title="回到顶部">⬆</button>
+                                        <button class="idx-arrow-btn" onclick="event.stopPropagation(); scrollToBottom()" title="回到底部">⬇</button>
+                                    </div>
                                 </div>
                                 <div class="item-body">
                                     <div class="item-location">
@@ -3335,8 +3357,8 @@
             }
 
             container.innerHTML = html;
-            // 渲染垂直导航条数字
-            renderNavNumbers();
+            // 渲染所有项目的导航数字
+            renderAllItemNav();
             // 自适应所有显示的textarea高度
             setTimeout(() => {
                 document.querySelectorAll('.remark-editor.show textarea, .sub-remark-area.show textarea').forEach(ta => {
